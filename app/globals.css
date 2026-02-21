@@ -1,0 +1,506 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Added Allka 2026 brand colors */
+  --terracotta: oklch(0.62 0.15 35);
+  --sage: oklch(0.65 0.08 145);
+  --cream: oklch(0.96 0.02 85);
+  --charcoal: oklch(0.25 0.01 260);
+
+  /* Added semantic status color tokens */
+  --success: oklch(0.65 0.15 145);
+  --success-foreground: oklch(0.25 0.08 145);
+  --success-muted: oklch(0.95 0.05 145);
+  --warning: oklch(0.75 0.15 85);
+  --warning-foreground: oklch(0.35 0.12 85);
+  --warning-muted: oklch(0.95 0.05 85);
+  --info: oklch(0.6 0.15 240);
+  --info-foreground: oklch(0.25 0.12 240);
+  --info-muted: oklch(0.95 0.05 240);
+  --online: oklch(0.65 0.15 145);
+  --busy: oklch(0.577 0.245 27.325);
+  --away: oklch(0.75 0.15 85);
+  --offline: oklch(0.556 0 0);
+
+  /* Added layout density spacing variables */
+  --spacing-compact: 0.5rem;
+  --spacing-comfortable: 1rem;
+  --spacing-spacious: 1.5rem;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  /* Updated sidebar colors to night sky theme with gradient from black to night blue */
+  --sidebar: oklch(0.08 0.02 250);
+  --sidebar-foreground: oklch(0.95 0.02 250);
+  --sidebar-primary: oklch(0.25 0.08 250);
+  --sidebar-primary-foreground: oklch(0.95 0.02 250);
+  --sidebar-accent: oklch(0.22 0.06 250);
+  --sidebar-accent-foreground: oklch(0.95 0.02 250);
+  --sidebar-border: oklch(0.25 0.05 250);
+  --sidebar-ring: oklch(0.35 0.08 250);
+
+  /* Added semantic status color tokens for dark mode */
+  --success: oklch(0.65 0.15 145);
+  --success-foreground: oklch(0.85 0.1 145);
+  --success-muted: oklch(0.25 0.08 145);
+  --warning: oklch(0.75 0.15 85);
+  --warning-foreground: oklch(0.9 0.1 85);
+  --warning-muted: oklch(0.25 0.08 85);
+  --info: oklch(0.6 0.15 240);
+  --info-foreground: oklch(0.85 0.12 240);
+  --info-muted: oklch(0.25 0.08 240);
+  --online: oklch(0.65 0.15 145);
+  --busy: oklch(0.637 0.237 25.331);
+  --away: oklch(0.75 0.15 85);
+  --offline: oklch(0.708 0 0);
+}
+
+/* Added high contrast mode styles for improved accessibility */
+.high-contrast {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0 0 0);
+  --border: oklch(0 0 0);
+  --input: oklch(0.95 0 0);
+  --muted: oklch(0.9 0 0);
+  --muted-foreground: oklch(0.2 0 0);
+}
+
+.dark.high-contrast {
+  --background: oklch(0 0 0);
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.1 0 0);
+  --card-foreground: oklch(1 0 0);
+  --border: oklch(0.8 0 0);
+  --input: oklch(0.15 0 0);
+  --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.8 0 0);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  /* Added serif font for headings */
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Added brand color tokens */
+  --color-terracotta: var(--terracotta);
+  --color-sage: var(--sage);
+  --color-cream: var(--cream);
+  --color-charcoal: var(--charcoal);
+
+  /* Added semantic status color tokens to theme */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-muted: var(--success-muted);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-muted: var(--warning-muted);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-muted: var(--info-muted);
+  --color-online: var(--online);
+  --color-busy: var(--busy);
+  --color-away: var(--away);
+  --color-offline: var(--offline);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Added layout density styles that adjust spacing dynamically */
+  [data-density="compact"] .card-spacing {
+    padding: var(--spacing-compact);
+  }
+
+  [data-density="comfortable"] .card-spacing {
+    padding: var(--spacing-comfortable);
+  }
+
+  [data-density="spacious"] .card-spacing {
+    padding: var(--spacing-spacious);
+  }
+
+  [data-density="compact"] main {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  [data-density="comfortable"] main {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  [data-density="spacious"] main {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* High contrast mode enhancements */
+  .high-contrast button,
+  .high-contrast a {
+    text-decoration: underline;
+  }
+
+  .high-contrast img {
+    filter: contrast(1.2);
+  }
+}
+
+@layer utilities {
+  /* Safe area support for devices with notches/home indicators */
+  .h-safe-area-inset-bottom {
+    height: env(safe-area-inset-bottom, 0px);
+  }
+
+  .pb-safe-area {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Mobile navigation specific styles */
+  .mobile-nav-blur {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Smooth transitions for mobile navigation */
+  .mobile-nav-transition {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Hide scrollbar for mobile menu */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Added scrollbar-hide utility for horizontal menu */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Added bottom padding utility for mobile navigation clearance - only on mobile/tablet */
+  .pb-mobile-nav {
+    padding-bottom: 1rem;
+  }
+
+  @media (max-width: 1023px) {
+    .pb-mobile-nav {
+      padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pb-mobile-nav {
+      padding-bottom: 3rem;
+    }
+  }
+
+  /* Added glassmorphism effect for modern app feel */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Added smooth snap scrolling for horizontal menu */
+  .snap-x {
+    scroll-snap-type: x mandatory;
+  }
+
+  .snap-center {
+    scroll-snap-align: center;
+  }
+
+  .snap-start {
+    scroll-snap-align: start;
+  }
+
+  /* Added modern card hover effects */
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-hover:active {
+    transform: translateY(0);
+  }
+
+  /* Added horizontal scroll indicators */
+  .scroll-indicator-left {
+    background: linear-gradient(to right, rgba(15, 23, 42, 0.95), transparent);
+  }
+
+  .scroll-indicator-right {
+    background: linear-gradient(to left, rgba(49, 46, 129, 0.95), transparent);
+  }
+
+  /* Added brand color utilities */
+  .bg-terracotta {
+    background-color: var(--terracotta);
+  }
+
+  .bg-sage {
+    background-color: var(--sage);
+  }
+
+  .bg-cream {
+    background-color: var(--cream);
+  }
+
+  .bg-charcoal {
+    background-color: var(--charcoal);
+  }
+
+  .text-terracotta {
+    color: var(--terracotta);
+  }
+
+  .text-sage {
+    color: var(--sage);
+  }
+
+  .text-cream {
+    color: var(--cream);
+  }
+
+  .text-charcoal {
+    color: var(--charcoal);
+  }
+
+  .border-terracotta {
+    border-color: var(--terracotta);
+  }
+
+  .border-sage {
+    border-color: var(--sage);
+  }
+
+  .border-cream {
+    border-color: var(--cream);
+  }
+
+  .border-charcoal {
+    border-color: var(--charcoal);
+  }
+
+  /* Modern custom scrollbar for sidebar */
+  .sidebar-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  }
+
+  .sidebar-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sidebar-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+  }
+
+  .sidebar-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+  }
+
+  .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  /* Updated fade indicators to match vibrant night sky gradient with more blue */
+  .scroll-fade-top {
+    position: relative;
+  }
+
+  .scroll-fade-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Updated to match new gradient starting with dark black */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), transparent);
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .scroll-fade-top.scrolled::before {
+    opacity: 1;
+  }
+
+  .scroll-fade-bottom {
+    position: relative;
+  }
+
+  .scroll-fade-bottom::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* Updated to match new gradient ending with vibrant night blue */
+    background: linear-gradient(to top, rgba(37, 99, 235, 0.9), transparent);
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .scroll-fade-bottom.has-more::after {
+    opacity: 1;
+  }
+
+  /* Brand surface - applies the theme gradient globally */
+  .brand-surface {
+    background: var(--brand-gradient, linear-gradient(135deg, #000000 0%, #1a2a6f 45%, #c81a7f 100%));
+  }
+
+  .brand-surface-subtle {
+    background: var(--brand-gradient, linear-gradient(135deg, #000000 0%, #1a2a6f 45%, #c81a7f 100%));
+    opacity: 0.1;
+  }
+
+  /* App brand header - unified header style for company modals */
+  .app-brand-header {
+    background: var(--app-brand-gradient, linear-gradient(135deg, #000000 0%, #1a2a6f 45%, #c81a7f 100%));
+    color: white;
+  }
+
+  /* Superfície principal do sistema */
+  .app-brand-surface {
+    background: var(--app-brand-bg, linear-gradient(135deg, #000000 0%, #1a2a6f 45%, #c81a7f 100%));
+    color: white;
+  }
+
+  /* Versão suave para áreas internas */
+  .app-brand-soft {
+    background: color-mix(in srgb, var(--app-brand-bg, linear-gradient(135deg, #000000 0%, #1a2a6f 45%, #c81a7f 100%)) 12%, transparent);
+  }
+}
+
+@supports (padding: max(0px)) {
+  .pb-safe-area {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
