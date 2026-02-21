@@ -1,15 +1,7 @@
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { AlertTriangle, CheckCircle2 } from 'lucide-react'
+import { createPortal } from 'react-dom'
+import { AlertTriangle, CheckCircle2, X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 interface ConfirmationDialogProps {
   /** Controls the visibility of the dialog */
@@ -65,50 +57,74 @@ export function ConfirmationDialog({
   cancelText = "Cancelar",
   destructive = true,
 }: ConfirmationDialogProps) {
+  if (!open) return null
+
   const handleConfirm = () => {
     onConfirm()
     onClose()
   }
 
-  return (
-    <AlertDialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <AlertDialogContent className="max-w-md">
-        <AlertDialogHeader className="gap-3">
-          <div className="flex items-center gap-3">
-            {destructive ? (
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-destructive/10">
-                <AlertTriangle className="h-5 w-5 text-destructive" />
-              </div>
-            ) : (
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                <CheckCircle2 className="h-5 w-5 text-primary" />
-              </div>
-            )}
-            <AlertDialogTitle className="text-left text-xl">{title}</AlertDialogTitle>
+  const modal = (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* Modal */}
+      <div className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-sm mx-4 overflow-hidden border border-slate-200 dark:border-slate-700">
+
+        {/* Top accent bar */}
+        <div className={`h-1 w-full ${destructive ? "bg-gradient-to-r from-red-500 to-rose-600" : "bg-gradient-to-r from-blue-500 to-violet-600"}`} />
+
+        {/* Header */}
+        <div className="flex items-start justify-between px-6 pt-5 pb-0">
+          <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${
+            destructive
+              ? "bg-red-50 dark:bg-red-900/20"
+              : "bg-blue-50 dark:bg-blue-900/20"
+          }`}>
+            {destructive
+              ? <AlertTriangle className="h-5 w-5 text-red-500" />
+              : <CheckCircle2 className="h-5 w-5 text-blue-500" />}
           </div>
-          <AlertDialogDescription className="text-left text-base leading-relaxed">
-            {message}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter className="gap-3 sm:gap-3">
-          <AlertDialogCancel 
+          <button
             onClick={onClose}
-            className="sm:flex-1"
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg p-1.5 transition-colors"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="px-6 pt-4 pb-6">
+          <h2 className="text-base font-bold text-slate-900 dark:text-white mb-1.5">{title}</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{message}</p>
+        </div>
+
+        {/* Footer */}
+        <div className="flex gap-3 px-6 pb-5">
+          <Button
+            variant="outline"
+            className="flex-1 h-9 text-sm border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+            onClick={onClose}
           >
             {cancelText}
-          </AlertDialogCancel>
-          <AlertDialogAction
+          </Button>
+          <Button
+            className={`flex-1 h-9 text-sm font-semibold text-white border-0 shadow-sm ${
+              destructive
+                ? "bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 shadow-red-200 dark:shadow-red-900/30"
+                : "bg-gradient-to-r from-blue-500 to-violet-600 hover:from-blue-600 hover:to-violet-700 shadow-blue-200 dark:shadow-blue-900/30"
+            }`}
             onClick={handleConfirm}
-            className={
-              destructive 
-                ? "bg-destructive text-white hover:bg-destructive/90 font-semibold sm:flex-1" 
-                : "bg-primary text-primary-foreground hover:bg-primary/90 font-semibold sm:flex-1"
-            }
           >
             {confirmText}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </div>
+      </div>
+    </div>
   )
-}
+
+  return createPortal(modal, document.body)}

@@ -206,6 +206,7 @@ export function Sidebar() {
     setCollapsed(newCollapsed)
     setSidebarCollapsed(newCollapsed)
     localStorage.setItem("sidebar-collapsed", JSON.stringify(newCollapsed))
+    window.dispatchEvent(new CustomEvent("sidebar-collapsed-change", { detail: { collapsed: newCollapsed } }))
   }
 
   const navigation = (() => {
@@ -439,6 +440,7 @@ export function Sidebar() {
   return (
     <TooltipProvider delayDuration={300}>
       <div
+        data-sidebar-root
         className={cn(
           "flex flex-col h-screen text-white transition-all duration-300 relative overflow-hidden brand-surface",
           !appliedTheme.backgroundColor.includes("gradient") &&

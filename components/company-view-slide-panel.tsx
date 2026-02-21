@@ -504,13 +504,39 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
     { nome: "Operações", uso: 650 },
   ]
 
-  const recentUsers = [
-    { id: 1, name: "Ana Silva", avatar: "AS", time: "Há 2 horas" },
-    { id: 2, name: "Carlos Santos", avatar: "CS", time: "Há 4 horas" },
-    { id: 3, name: "Marina Costa", avatar: "MC", time: "Ontem" },
-    { id: 4, name: "Paulo Oliveira", avatar: "PO", time: "2 dias atrás" },
-    { id: 5, name: "Rita Alves", avatar: "RA", time: "3 dias atrás" },
+  const allUserPool = [
+    { name: "Ana Silva",       avatar: "AS" },
+    { name: "Carlos Santos",   avatar: "CS" },
+    { name: "Marina Costa",    avatar: "MC" },
+    { name: "Paulo Oliveira",  avatar: "PO" },
+    { name: "Rita Alves",      avatar: "RA" },
+    { name: "Lucas Ferreira",  avatar: "LF" },
+    { name: "Juliana Rocha",   avatar: "JR" },
+    { name: "Bruno Mendes",    avatar: "BM" },
+    { name: "Fernanda Lima",   avatar: "FL" },
+    { name: "Diego Carvalho",  avatar: "DC" },
+    { name: "Tatiane Borges",  avatar: "TB" },
+    { name: "Rafael Souza",    avatar: "RS" },
+    { name: "Camila Nunes",    avatar: "CN" },
+    { name: "Vinícius Prado",  avatar: "VP" },
+    { name: "Aline Castelo",   avatar: "AC" },
+    { name: "Thiago Moreira",  avatar: "TM" },
+    { name: "Patrícia Dias",   avatar: "PD" },
+    { name: "Rodrigo Leal",    avatar: "RL" },
+    { name: "Isabela Teixeira",avatar: "IT" },
+    { name: "Felipe Araújo",   avatar: "FA" },
   ]
+  const accessTimes = [
+    "Há 10 minutos", "Há 25 minutos", "Há 1 hora", "Há 2 horas", "Há 3 horas",
+    "Há 5 horas", "Há 7 horas", "Há 9 horas", "Ontem", "Ontem à tarde",
+    "2 dias atrás", "3 dias atrás", "4 dias atrás", "5 dias atrás", "1 semana atrás",
+  ]
+  const seed = company.id * 7
+  const recentUsers = Array.from({ length: 5 }, (_, i) => {
+    const userIdx = (seed + i * 3) % allUserPool.length
+    const timeIdx = (seed + i * 5) % accessTimes.length
+    return { id: i + 1, ...allUserPool[userIdx], time: accessTimes[timeIdx] }
+  })
 
   return (
     <>
@@ -741,7 +767,11 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                             <TrendingUp className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                             <span className="text-xs font-medium text-emerald-900 dark:text-emerald-300">Taxa de Crescimento</span>
                           </div>
-                          <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">12.5%</p>
+                          <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
+                            {company.status === "active" && company.mau > 0
+                              ? `${((company.dau / company.mau) * 100).toFixed(1)}%`
+                              : "—"}
+                          </p>
                         </Card>
 
                         <Card className="p-2 bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-950/20 dark:to-blue-900/10 border-blue-200/50 dark:border-blue-800/30 shadow-none">
@@ -749,7 +779,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                             <Users className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
                             <span className="text-xs font-medium text-blue-900 dark:text-blue-300">Total de Usuários</span>
                           </div>
-                          <p className="text-lg font-bold text-blue-700 dark:text-blue-300">{company.users_online || 0}</p>
+                          <p className="text-lg font-bold text-blue-700 dark:text-blue-300">{company.users_count}</p>
                         </Card>
 
                         <Card className="p-2 bg-gradient-to-br from-violet-50 to-violet-100/50 dark:from-violet-950/20 dark:to-violet-900/10 border-violet-200/50 dark:border-violet-800/30 shadow-none">
@@ -757,7 +787,9 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                             <Clock className="h-3.5 w-3.5 text-violet-600 dark:text-violet-400" />
                             <span className="text-xs font-medium text-violet-900 dark:text-violet-300">Ativos 90d</span>
                           </div>
-                          <p className="text-lg font-bold text-violet-700 dark:text-violet-300">45</p>
+                          <p className="text-lg font-bold text-violet-700 dark:text-violet-300">
+                            {company.mau > 0 ? Math.round(company.mau / 3) : 0}
+                          </p>
                         </Card>
                       </div>
                     </AccordionContent>

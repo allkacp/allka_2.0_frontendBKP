@@ -1,18 +1,37 @@
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { Building2, Users, TrendingUp, Search, Plus, Eye, Pencil, Trash2, ChevronLeft, ChevronRight, Filter, X, Copy } from "lucide-react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Building2, Users, Search, Plus, Eye, Trash2, ChevronLeft, ChevronRight, Filter, X, Copy, Activity, FolderOpen, Mail, Hash, TrendingUp, TrendingDown, Info, Pencil, GripVertical } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { ItemsPerPageSelect } from "@/components/items-per-page-select"
 import { CompanyCreateSlidePanel } from "@/components/company-create-slide-panel"
 import { CompanyEditSlidePanel } from "@/components/company-edit-slide-panel"
 import { CompanyViewSlidePanel } from "@/components/company-view-slide-panel"
-import PageHeader from "@/components/page-header"
+import { ConfirmationDialog } from "@/components/confirmation-dialog"
+import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar as useSidebarTheme } from "@/contexts/sidebar-context"
+
+const gradientMap: Record<string, string> = {
+  "bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900": "linear-gradient(to bottom right, #1e3a8a, #1e40af, #164e63)",
+  "bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-900": "linear-gradient(to bottom, #0f172a, #1e3a8a, #312e81)",
+  "bg-gradient-to-tr from-indigo-900 via-purple-800 to-blue-800": "linear-gradient(to top right, #312e81, #6b21a8, #1e40af)",
+  "bg-gradient-to-br from-green-900 via-emerald-800 to-teal-900": "linear-gradient(to bottom right, #14532d, #065f46, #134e4a)",
+  "bg-gradient-to-b from-emerald-900 via-green-800 to-cyan-900": "linear-gradient(to bottom, #064e3b, #166534, #164e63)",
+  "bg-gradient-to-tr from-teal-900 via-emerald-800 to-green-800": "linear-gradient(to top right, #134e4a, #065f46, #166534)",
+  "bg-gradient-to-br from-purple-900 via-violet-800 to-indigo-900": "linear-gradient(to bottom right, #581c87, #5b21b6, #312e81)",
+  "bg-gradient-to-b from-indigo-900 via-purple-800 to-fuchsia-900": "linear-gradient(to bottom, #312e81, #6b21a8, #701a75)",
+  "bg-gradient-to-tr from-violet-900 via-purple-800 to-pink-900": "linear-gradient(to top right, #4c1d95, #6b21a8, #831843)",
+  "bg-gradient-to-br from-red-900 via-orange-800 to-amber-900": "linear-gradient(to bottom right, #7f1d1d, #9a3412, #78350f)",
+  "bg-gradient-to-b from-orange-900 via-red-800 to-rose-900": "linear-gradient(to bottom, #7c2d12, #991b1b, #881337)",
+  "bg-gradient-to-tr from-rose-900 via-red-800 to-pink-900": "linear-gradient(to top right, #881337, #991b1b, #831843)",
+  "bg-gradient-to-br from-slate-900 via-gray-800 to-zinc-900": "linear-gradient(to bottom right, #0f172a, #1f2937, #18181b)",
+  "bg-gradient-to-b from-neutral-900 via-stone-800 to-slate-900": "linear-gradient(to bottom, #171717, #292524, #0f172a)",
+  "bg-gradient-to-tr from-black via-slate-900 to-gray-900": "linear-gradient(to top right, #000000, #0f172a, #111827)",
+}
 
 type CompanyType = "all" | "company" | "agency" | "nomad"
 type CompanyStatus = "all" | "active" | "inactive" | "pending"
@@ -44,7 +63,7 @@ const mockCompanies: Company[] = [
     name: "Acme Corporation",
     type: "company",
     email: "contact@acme.com",
-    phone: "+1 234 567 8900",
+    phone: "+55 11 98412-7630",
     document: "12.345.678/0001-90",
     location: "São Paulo, SP",
     account_type: "Premium",
@@ -54,31 +73,331 @@ const mockCompanies: Company[] = [
     users_online: 12,
     projects_count: 23,
     created_at: "2023-01-15",
-    mau: 890,
-    dau: 245,
-    bitrix_id: "BT123456",
-    asaas_id: "AS789012",
+    mau: 1340,
+    dau: 310,
+    bitrix_id: "BT-82741",
+    asaas_id: "AS-114903",
   },
   {
     id: 2,
     name: "Tech Solutions",
     type: "agency",
     email: "info@techsolutions.com",
-    phone: "+1 234 567 8901",
+    phone: "+55 21 97203-5581",
     document: "98.765.432/0001-10",
     location: "Rio de Janeiro, RJ",
     account_type: "Standard",
     status: "active",
-    users_count: 28,
-    users_online: 8,
-    projects_count: 15,
+    users_count: 14,
+    users_online: 3,
+    projects_count: 38,
     created_at: "2023-02-20",
-    mau: 560,
-    dau: 180,
+    mau: 290,
+    dau: 74,
+  },
+  {
+    id: 3,
+    name: "Inovação Digital Ltda",
+    type: "company",
+    email: "contato@inovacaodigital.com.br",
+    phone: "+55 31 96554-0218",
+    document: "23.456.789/0001-01",
+    location: "Belo Horizonte, MG",
+    account_type: "Premium",
+    partner_level: "Platinum",
+    status: "active",
+    users_count: 167,
+    users_online: 41,
+    projects_count: 72,
+    created_at: "2022-03-17",
+    mau: 3820,
+    dau: 940,
+    bitrix_id: "BT-33019",
+    asaas_id: "AS-556781",
+  },
+  {
+    id: 4,
+    name: "Agência Criativa Hub",
+    type: "agency",
+    email: "hello@criativahub.com.br",
+    phone: "+55 41 99061-3477",
+    document: "34.567.890/0001-22",
+    location: "Curitiba, PR",
+    account_type: "Standard",
+    partner_level: "Silver",
+    status: "active",
+    users_count: 8,
+    users_online: 2,
+    projects_count: 54,
+    created_at: "2023-07-28",
+    mau: 185,
+    dau: 53,
+  },
+  {
+    id: 5,
+    name: "Nomade Freelancer Co",
+    type: "nomad",
+    email: "oi@nomadefreelancer.io",
+    phone: "+55 85 98274-1650",
+    document: "45.678.901/0001-33",
+    location: "Fortaleza, CE",
+    account_type: "Basic",
+    status: "active",
+    users_count: 1,
+    users_online: 1,
+    projects_count: 7,
+    created_at: "2024-04-11",
+    mau: 47,
+    dau: 18,
+  },
+  {
+    id: 6,
+    name: "Grupo Visionário",
+    type: "company",
+    email: "comercial@grupovisionario.com",
+    phone: "+55 51 93708-2946",
+    document: "56.789.012/0001-44",
+    location: "Porto Alegre, RS",
+    account_type: "Enterprise",
+    partner_level: "Gold",
+    status: "inactive",
+    users_count: 93,
+    users_online: 0,
+    projects_count: 61,
+    created_at: "2021-11-02",
+    mau: 0,
+    dau: 0,
+    bitrix_id: "BT-10582",
+    asaas_id: "AS-223047",
+  },
+  {
+    id: 7,
+    name: "Studio Mídias Sociais",
+    type: "agency",
+    email: "studio@midiassociais.net",
+    phone: "+55 71 94190-8823",
+    document: "67.890.123/0001-55",
+    location: "Salvador, BA",
+    account_type: "Standard",
+    status: "pending",
+    users_count: 5,
+    users_online: 0,
+    projects_count: 0,
+    created_at: "2025-12-03",
+    mau: 0,
+    dau: 0,
+  },
+  {
+    id: 8,
+    name: "Plataforma Logística BR",
+    type: "company",
+    email: "ops@logisticabr.com.br",
+    phone: "+55 62 98830-4712",
+    document: "78.901.234/0001-66",
+    location: "Goiânia, GO",
+    account_type: "Premium",
+    partner_level: "Silver",
+    status: "active",
+    users_count: 249,
+    users_online: 88,
+    projects_count: 137,
+    created_at: "2020-07-19",
+    mau: 6470,
+    dau: 1820,
+    bitrix_id: "BT-74039",
+    asaas_id: "AS-389120",
+  },
+  {
+    id: 9,
+    name: "FreelanceFlow",
+    type: "nomad",
+    email: "ola@freelanceflow.dev",
+    phone: "+55 11 95047-3196",
+    document: "89.012.345/0001-77",
+    location: "São Paulo, SP",
+    account_type: "Basic",
+    status: "inactive",
+    users_count: 1,
+    users_online: 0,
+    projects_count: 3,
+    created_at: "2024-09-05",
+    mau: 0,
+    dau: 0,
+  },
+  {
+    id: 10,
+    name: "Consultoria Avante",
+    type: "company",
+    email: "rh@avante.com.br",
+    phone: "+55 81 97362-0854",
+    document: "90.123.456/0001-88",
+    location: "Recife, PE",
+    account_type: "Enterprise",
+    partner_level: "Platinum",
+    status: "active",
+    users_count: 412,
+    users_online: 97,
+    projects_count: 214,
+    created_at: "2019-05-30",
+    mau: 11300,
+    dau: 3190,
+    bitrix_id: "BT-92013",
+    asaas_id: "AS-667452",
+  },
+  {
+    id: 11,
+    name: "Pixel & Cia Design",
+    type: "agency",
+    email: "arte@pixelecia.design",
+    phone: "+55 48 96615-8043",
+    document: "01.234.567/0001-99",
+    location: "Florianópolis, SC",
+    account_type: "Standard",
+    status: "pending",
+    users_count: 4,
+    users_online: 0,
+    projects_count: 0,
+    created_at: "2026-01-22",
+    mau: 0,
+    dau: 0,
+  },
+  {
+    id: 12,
+    name: "Nômade Criativo 360",
+    type: "nomad",
+    email: "eu@nomadecriativo.me",
+    phone: "+55 92 98103-7265",
+    document: "11.222.333/0001-44",
+    location: "Manaus, AM",
+    account_type: "Basic",
+    status: "active",
+    users_count: 1,
+    users_online: 1,
+    projects_count: 4,
+    created_at: "2025-05-14",
+    mau: 29,
+    dau: 9,
+  },
+  {
+    id: 13,
+    name: "Empreendimentos Nexus",
+    type: "company",
+    email: "negocios@nexus.adm.br",
+    phone: "+55 61 99480-6127",
+    document: "22.333.444/0001-55",
+    location: "Brasília, DF",
+    account_type: "Premium",
+    partner_level: "Gold",
+    status: "active",
+    users_count: 61,
+    users_online: 19,
+    projects_count: 33,
+    created_at: "2023-10-08",
+    mau: 970,
+    dau: 268,
+    bitrix_id: "BT-40871",
+    asaas_id: "AS-781936",
+  },
+  {
+    id: 14,
+    name: "MarcaForte Agência",
+    type: "agency",
+    email: "ola@marcaforteagencia.com.br",
+    phone: "+55 27 93872-5104",
+    document: "33.444.555/0001-66",
+    location: "Vitória, ES",
+    account_type: "Standard",
+    partner_level: "Bronze",
+    status: "inactive",
+    users_count: 7,
+    users_online: 0,
+    projects_count: 11,
+    created_at: "2022-08-30",
+    mau: 0,
+    dau: 0,
+  },
+  {
+    id: 15,
+    name: "CloudBase Tecnologia",
+    type: "company",
+    email: "ti@cloudbase.tech",
+    phone: "+55 19 98527-3041",
+    document: "44.555.666/0001-77",
+    location: "Campinas, SP",
+    account_type: "Enterprise",
+    partner_level: "Platinum",
+    status: "active",
+    users_count: 538,
+    users_online: 214,
+    projects_count: 291,
+    created_at: "2018-09-14",
+    mau: 17600,
+    dau: 5430,
+    bitrix_id: "BT-61248",
+    asaas_id: "AS-904567",
+  },
+  {
+    id: 16,
+    name: "Minha Startup SaaS",
+    type: "company",
+    email: "founder@minhasaas.io",
+    phone: "+55 11 94361-8720",
+    document: "55.666.777/0001-88",
+    location: "São Paulo, SP",
+    account_type: "Basic",
+    status: "pending",
+    users_count: 2,
+    users_online: 0,
+    projects_count: 0,
+    created_at: "2026-02-01",
+    mau: 0,
+    dau: 0,
+  },
+  {
+    id: 17,
+    name: "Conecta Agências",
+    type: "agency",
+    email: "parcerias@conectaagencias.com",
+    phone: "+55 84 97014-5392",
+    document: "66.777.888/0001-99",
+    location: "Natal, RN",
+    account_type: "Standard",
+    partner_level: "Silver",
+    status: "active",
+    users_count: 11,
+    users_online: 4,
+    projects_count: 28,
+    created_at: "2024-11-17",
+    mau: 324,
+    dau: 87,
   },
 ]
 
 export default function EmpresasPage() {
+  const { sidebarWidth } = useSidebar()
+  const { sidebarSettings, previewTheme } = useSidebarTheme()
+  const appliedTheme = previewTheme || sidebarSettings
+  const themeBg = appliedTheme.backgroundColor
+  const getHeaderStyle = (): React.CSSProperties => {
+    if (!themeBg || themeBg === "bg-slate-900") return { background: "linear-gradient(to right, #0a1628, #1e3a8a, #0a1628)" }
+    if (themeBg.startsWith("custom-gradient:")) return { background: themeBg.replace("custom-gradient:", "") }
+    if (themeBg.includes("gradient")) return { background: gradientMap[themeBg] || "#0f172a" }
+    return {}
+  }
+  const [headerHeight, setHeaderHeight] = useState(64)
+  const [footerHeight, setFooterHeight] = useState(40)
+  useEffect(() => {
+    const measure = () => {
+      const h = document.querySelector("header")
+      const f = document.querySelector("footer")
+      if (h) setHeaderHeight(h.offsetHeight)
+      if (f) setFooterHeight(f.offsetHeight)
+    }
+    measure()
+    window.addEventListener("resize", measure)
+    return () => window.removeEventListener("resize", measure)
+  }, [])
+
   const [companies, setCompanies] = useState<Company[]>(mockCompanies)
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>(companies)
   const [searchQuery, setSearchQuery] = useState("")
@@ -89,6 +408,11 @@ export default function EmpresasPage() {
   const [pageSize, setPageSize] = useState(10)
   const [currentPage, setCurrentPage] = useState(1)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+  const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; companyId: number | null; companyName: string }>({
+    open: false,
+    companyId: null,
+    companyName: "",
+  })
   
   // Filtros avançados
   const [advancedFilters, setAdvancedFilters] = useState({
@@ -97,12 +421,19 @@ export default function EmpresasPage() {
     email: "",
     phone: "",
     whatsapp: "",
+    location: "",
     types: [] as string[],
     statuses: [] as string[],
+    accountTypes: [] as string[],
+    partnerLevels: [] as string[],
+    minUsers: "",
+    maxUsers: "",
+    minProjects: "",
+    maxProjects: "",
+    hasBitrixId: false,
+    hasAsaasId: false,
     registrationDateFrom: "",
     registrationDateTo: "",
-    lastAccessDateFrom: "",
-    lastAccessDateTo: "",
   })
 
   // Gerenciamento de filtros salvos
@@ -113,16 +444,27 @@ export default function EmpresasPage() {
   const [saveAsFilter, setSaveAsFilter] = useState(false)
   const [isDuplicatingFilter, setIsDuplicatingFilter] = useState(false)
   const [unsavedChanges, setUnsavedChanges] = useState(false)
+  const [showSaveInput, setShowSaveInput] = useState(false)
+  const [filterNameInput, setFilterNameInput] = useState("")
+  const [editingFilterId, setEditingFilterId] = useState<string | null>(null)
+  const [editingFilterName, setEditingFilterName] = useState("")
+  const [draggingFilterId, setDraggingFilterId] = useState<string | null>(null)
+  const [dragOverFilterId, setDragOverFilterId] = useState<string | null>(null)
+  const [visibleFields, setVisibleFields] = useState<string[]>(["nome","status","tipo","plano","parceiro","data_cadastro"])
+  const [showFieldPicker, setShowFieldPicker] = useState(false)
 
   useEffect(() => {
     let filtered = companies
 
     if (searchQuery) {
+      const q = searchQuery.toLowerCase()
       filtered = filtered.filter(
         (company) =>
-          company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          company.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          company.document.includes(searchQuery),
+          company.name.toLowerCase().includes(q) ||
+          company.email.toLowerCase().includes(q) ||
+          company.document.includes(searchQuery) ||
+          (company.phone && company.phone.replace(/\D/g, "").includes(searchQuery.replace(/\D/g, ""))) ||
+          (company.location && company.location.toLowerCase().includes(q)),
       )
     }
 
@@ -161,6 +503,44 @@ export default function EmpresasPage() {
       filtered = filtered.filter((company) =>
         advancedFilters.statuses.includes(company.status)
       )
+    }
+
+    if (advancedFilters.location) {
+      filtered = filtered.filter((company) =>
+        company.location.toLowerCase().includes(advancedFilters.location.toLowerCase())
+      )
+    }
+
+    if (advancedFilters.accountTypes.length > 0) {
+      filtered = filtered.filter((company) =>
+        company.account_type ? advancedFilters.accountTypes.includes(company.account_type) : false
+      )
+    }
+
+    if (advancedFilters.partnerLevels.length > 0) {
+      filtered = filtered.filter((company) =>
+        company.partner_level ? advancedFilters.partnerLevels.includes(company.partner_level) : false
+      )
+    }
+
+    if (advancedFilters.minUsers) {
+      filtered = filtered.filter((company) => company.users_count >= Number(advancedFilters.minUsers))
+    }
+    if (advancedFilters.maxUsers) {
+      filtered = filtered.filter((company) => company.users_count <= Number(advancedFilters.maxUsers))
+    }
+    if (advancedFilters.minProjects) {
+      filtered = filtered.filter((company) => company.projects_count >= Number(advancedFilters.minProjects))
+    }
+    if (advancedFilters.maxProjects) {
+      filtered = filtered.filter((company) => company.projects_count <= Number(advancedFilters.maxProjects))
+    }
+
+    if (advancedFilters.hasBitrixId) {
+      filtered = filtered.filter((company) => !!company.bitrix_id)
+    }
+    if (advancedFilters.hasAsaasId) {
+      filtered = filtered.filter((company) => !!company.asaas_id)
     }
 
     if (advancedFilters.registrationDateFrom) {
@@ -247,9 +627,15 @@ export default function EmpresasPage() {
   }
 
   const handleDeleteCompany = (id: number) => {
-    if (confirm("Tem certeza que deseja excluir esta empresa?")) {
-      setCompanies(companies.filter((c) => c.id !== id))
+    const company = companies.find((c) => c.id === id)
+    setDeleteDialog({ open: true, companyId: id, companyName: company?.name ?? "" })
+  }
+
+  const handleConfirmDelete = () => {
+    if (deleteDialog.companyId !== null) {
+      setCompanies(companies.filter((c) => c.id !== deleteDialog.companyId))
     }
+    setDeleteDialog({ open: false, companyId: null, companyName: "" })
   }
 
   const getTypeLabel = (type: CompanyType) => {
@@ -272,733 +658,992 @@ export default function EmpresasPage() {
     return colors[status] as any
   }
 
-  return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <PageHeader
-          title={
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Empresas
-            </span>
-          }
-          description="Gerencie todas as empresas cadastradas na plataforma"
+  // Sparkline & stats history data
+  const statsHistory = {
+    total:    { data: [6, 8, 7, 10, 9, 11, 14, 13, 15, 16, 17, stats.total], prev: 17, label: "mês passado" },
+    active:   { data: [4, 5, 5, 7, 6, 8, 9, 9, 11, 12, 13, stats.active], prev: 13, label: "mês passado" },
+    users:    { data: [30, 38, 42, 50, 55, 60, 62, 65, 64, 68, 70, stats.totalUsers], prev: 70, label: "mês passado" },
+    projects: { data: [10, 15, 18, 22, 25, 26, 28, 30, 32, 34, 36, stats.totalProjects], prev: 36, label: "mês passado" },
+  }
+
+  const Sparkline = ({ data, color }: { data: number[]; color: string }) => {
+    const w = 80, h = 16
+    const min = Math.min(...data), max = Math.max(...data)
+    const range = max - min || 1
+    const pts = data.map((v, i) => {
+      const x = (i / (data.length - 1)) * w
+      const y = h - ((v - min) / range) * (h - 4) - 2
+      return `${x},${y}`
+    }).join(" ")
+    return (
+      <svg width={w} height={h} className="overflow-visible">
+        <defs>
+          <linearGradient id={`grad-${color}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="white" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="white" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <polyline
+          fill="none"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          points={pts}
+          style={{ opacity: 0.9 }}
         />
+        <circle
+          cx={(data.length - 1) / (data.length - 1) * w}
+          cy={h - ((data[data.length - 1] - min) / range) * (h - 4) - 2}
+          r="2.5"
+          fill="white"
+          opacity="0.9"
+        />
+      </svg>
+    )
+  }
+
+  const StatCard = ({
+    label, value, prevValue, prevLabel, icon: Icon, gradient, sparkKey, trendColor,
+  }: {
+    label: string
+    value: number
+    prevValue: number
+    prevLabel: string
+    icon: React.ElementType
+    gradient: string
+    sparkKey: keyof typeof statsHistory
+    trendColor: string
+  }) => {
+    const [hovered, setHovered] = useState(false)
+    const diff = value - prevValue
+    const pct = prevValue > 0 ? Math.round(Math.abs(diff / prevValue) * 100) : 0
+    const up = diff >= 0
+
+    return (
+      <div
+        className={`relative rounded-xl overflow-hidden shadow-sm cursor-default transition-all duration-200 ${hovered ? "shadow-lg scale-[1.02]" : ""} bg-gradient-to-br ${gradient}`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {/* Info tooltip */}
+        <div
+          className={`absolute top-2 right-2 z-10 transition-opacity duration-150 ${hovered ? "opacity-100" : "opacity-0"}`}
+        >
+          <TooltipProvider>
+            <Tooltip open={hovered}>
+              <TooltipTrigger asChild>
+                <div className="bg-white/25 hover:bg-white/35 rounded-md p-0.5 cursor-pointer transition-colors">
+                  <Info className="h-2.5 w-2.5 text-white" />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent
+                side="top"
+                className="bg-slate-900 border-slate-700 text-white p-3 rounded-xl shadow-xl"
+              >
+                <div className="min-w-[130px]">
+                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">{label}</p>
+                  <div className="flex items-center justify-between gap-4 mb-1.5">
+                    <span className="text-xs text-slate-300">Atual</span>
+                    <span className="text-sm font-bold text-white">{value}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 mb-2">
+                    <span className="text-xs text-slate-300">{prevLabel}</span>
+                    <span className="text-sm font-semibold text-slate-300">{prevValue}</span>
+                  </div>
+                  <div className={`flex items-center gap-1 px-2 py-1 rounded-lg ${up ? "bg-emerald-500/20 text-emerald-300" : "bg-red-500/20 text-red-300"}`}>
+                    {up ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                    <span className="text-xs font-semibold">{up ? "+" : "-"}{pct}% vs {prevLabel}</span>
+                  </div>
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+
+        <div className="px-3 pt-2 pb-1.5">
+          <div className="flex items-center justify-between mb-1">
+            <p className="text-[10px] font-medium text-white/70 leading-tight truncate">{label}</p>
+            <div className="bg-white/20 rounded-md p-1 flex-shrink-0 ml-1">
+              <Icon className="h-3 w-3 text-white" />
+            </div>
+          </div>
+
+          <div className="flex items-end justify-between gap-2">
+            <div>
+              <p className="text-xl font-bold text-white leading-none">{value}</p>
+              <div className="inline-flex items-center gap-0.5 mt-0.5">
+                {up ? <TrendingUp className="h-2.5 w-2.5 text-white/80" /> : <TrendingDown className="h-2.5 w-2.5 text-white/80" />}
+                <span className="text-[9px] font-semibold text-white/80">{up ? "+" : "-"}{pct}%</span>
+              </div>
+            </div>
+            {/* Sparkline */}
+            <div className="flex-shrink-0">
+              <Sparkline data={statsHistory[sparkKey].data} color={trendColor} />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const getCompanyInitials = (name: string) => {
+    return name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase()
+  }
+
+  const avatarColors = [
+    "from-blue-500 to-blue-700",
+    "from-violet-500 to-purple-700",
+    "from-emerald-500 to-teal-700",
+    "from-orange-500 to-rose-600",
+    "from-cyan-500 to-blue-600",
+    "from-pink-500 to-rose-700",
+  ]
+
+  const getAvatarColor = (id: number) => avatarColors[id % avatarColors.length]
+
+  return (
+    <div className="space-y-5">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-violet-600 to-purple-600 bg-clip-text text-transparent tracking-tight">
+            Empresas
+          </h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+            Gerencie todas as empresas cadastradas na plataforma
+          </p>
+        </div>
         <Button
           onClick={() => setCreatePanelOpen(true)}
-          className="h-9 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+          className="h-9 gap-2 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 shadow-md shadow-blue-200 dark:shadow-blue-900/40 text-white border-0"
         >
-          <Plus className="h-4 w-4 mr-1" />
+          <Plus className="h-4 w-4" />
           Nova Empresa
         </Button>
       </div>
 
-      <Accordion type="single" collapsible className="mb-1">
-        <AccordionItem value="stats" className="border-none">
-          <AccordionTrigger className="bg-blue-50 hover:bg-blue-100 rounded-lg px-4 py-3 transition-colors">
-            <div className="flex items-center gap-2">
-              <Building2 className="h-5 w-5 text-blue-600" />
-              <span className="font-semibold text-blue-900">Estatísticas e Métricas</span>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="pt-3">
-            <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
-              <Card className="p-3 bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-                <div className="flex items-center gap-2 mb-1">
-                  <Building2 className="h-4 w-4 text-blue-600" />
-                  <span className="text-xs font-medium text-blue-900">Total de Empresas</span>
-                </div>
-                <p className="text-2xl font-bold text-blue-700">{stats.total}</p>
-              </Card>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <StatCard
+          label="Total de Empresas"
+          value={stats.total}
+          prevValue={statsHistory.total.prev}
+          prevLabel={statsHistory.total.label}
+          icon={Building2}
+          gradient="from-blue-500 to-blue-700"
+          sparkKey="total"
+          trendColor="blue"
+        />
+        <StatCard
+          label="Empresas Ativas"
+          value={stats.active}
+          prevValue={statsHistory.active.prev}
+          prevLabel={statsHistory.active.label}
+          icon={Activity}
+          gradient="from-emerald-500 to-teal-600"
+          sparkKey="active"
+          trendColor="emerald"
+        />
+        <StatCard
+          label="Total de Usuários"
+          value={stats.totalUsers}
+          prevValue={statsHistory.users.prev}
+          prevLabel={statsHistory.users.label}
+          icon={Users}
+          gradient="from-violet-500 to-purple-700"
+          sparkKey="users"
+          trendColor="violet"
+        />
+        <StatCard
+          label="Total de Projetos"
+          value={stats.totalProjects}
+          prevValue={statsHistory.projects.prev}
+          prevLabel={statsHistory.projects.label}
+          icon={FolderOpen}
+          gradient="from-orange-500 to-rose-600"
+          sparkKey="projects"
+          trendColor="orange"
+        />
+      </div>
 
-              <Card className="p-3 bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-                <div className="flex items-center gap-2 mb-1">
-                  <TrendingUp className="h-4 w-4 text-green-600" />
-                  <span className="text-xs font-medium text-green-900">Empresas Ativas</span>
-                </div>
-                <p className="text-2xl font-bold text-green-700">{stats.active}</p>
-              </Card>
-
-              <Card className="p-3 bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-                <div className="flex items-center gap-2 mb-1">
-                  <Users className="h-4 w-4 text-purple-600" />
-                  <span className="text-xs font-medium text-purple-900">Total de Usuários</span>
-                </div>
-                <p className="text-2xl font-bold text-purple-700">{stats.totalUsers}</p>
-              </Card>
-
-              <Card className="p-3 bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
-                <div className="flex items-center gap-2 mb-1">
-                  <Building2 className="h-4 w-4 text-orange-600" />
-                  <span className="text-xs font-medium text-orange-900">Total de Projetos</span>
-                </div>
-                <p className="text-2xl font-bold text-orange-700">{stats.totalProjects}</p>
-              </Card>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-
-      <Card className="border border-slate-200/60 dark:border-slate-700/60 shadow-sm hover:shadow-md transition-shadow">
-        <CardContent className="pt-4 pb-4 px-4">
-          <div className="space-y-4">
-            {/* Compact Controls Bar - Modern Pagination Layout */}
-      <div className="flex items-center justify-between gap-3 h-10">
-        {/* Left: Search */}
-        <div className="flex-1 min-w-0">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+      {/* Main Table Card */}
+      <Card className="border border-slate-200/70 dark:border-slate-700/60 shadow-sm overflow-hidden">
+        {/* Card Top Bar */}
+        <div className="flex items-center gap-3 px-5 py-3.5 border-b border-slate-200/70 dark:border-slate-700/60 bg-slate-50/60 dark:bg-slate-900/30">
+          {/* Search */}
+          <div className="w-72 relative flex-shrink-0">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
-              placeholder="Buscar por nome ou email..."
+              placeholder="Nome, e-mail, CNPJ, telefone..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-10 text-sm rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+              className="pl-9 h-9 text-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus-visible:ring-blue-500"
             />
+          </div>
+
+          {/* Result count */}
+          <span className="text-xs text-slate-400 whitespace-nowrap flex-shrink-0">
+            {filteredCompanies.length !== companies.length
+              ? <><span className="font-semibold text-blue-500">{filteredCompanies.length}</span> de {companies.length}</>
+              : <><span className="font-semibold text-slate-600 dark:text-slate-300">{companies.length}</span> empresa{companies.length !== 1 ? "s" : ""}</>
+            }
+          </span>
+
+          {/* Items per page */}
+          <ItemsPerPageSelect
+            value={pageSize.toString()}
+            onValueChange={(value) => { setPageSize(Number(value)); setCurrentPage(1) }}
+            variant="top"
+          />
+
+          {/* Filter Button */}
+          <Button
+            onClick={() => setIsFilterModalOpen(true)}
+            variant="outline"
+            size="sm"
+            className="h-9 gap-2 px-3.5 text-xs border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+          >
+            <Filter className="h-3.5 w-3.5" />
+            Filtros
+          </Button>
+
+          {/* Top Pagination */}
+          <div className="flex items-center gap-0.5">
+            <button
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className="h-7 w-7 flex items-center justify-center rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+            >
+              <ChevronLeft className="h-3.5 w-3.5" />
+            </button>
+            {getPageNumbers().map((page, index) =>
+              page === "..." ? (
+                <span key={index} className="text-xs text-slate-300 px-0.5">·</span>
+              ) : (
+                <button
+                  key={index}
+                  onClick={() => setCurrentPage(Number(page))}
+                  className={`h-7 w-7 flex items-center justify-center rounded-full text-xs font-semibold transition-colors ${
+                    page === currentPage
+                      ? "bg-blue-500 text-white shadow-sm shadow-blue-200 dark:shadow-blue-900/40"
+                      : "text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-400"
+                  }`}
+                >
+                  {page}
+                </button>
+              )
+            )}
+            <button
+              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+              disabled={currentPage === totalPages}
+              className="h-7 w-7 flex items-center justify-center rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+            >
+              <ChevronRight className="h-3.5 w-3.5" />
+            </button>
           </div>
         </div>
 
-        {/* Center-Left: Items per page */}
-        <ItemsPerPageSelect 
-          value={pageSize.toString()} 
-          onValueChange={(value) => {
-            setPageSize(Number(value))
-            setCurrentPage(1)
-          }}
-          variant="top"
-        />
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-slate-200/60 dark:border-slate-700/60">
+                <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Empresa</th>
+                <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Contato</th>
+                <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">CNPJ · Usuários</th>
+                <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tipo</th>
+                <th className="px-5 py-3 text-right text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ações</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              {paginatedCompanies.map((company) => (
+                <tr
+                  key={company.id}
+                  className="group hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors cursor-pointer"
+                >
+                  {/* Company */}
+                  <td className="px-5 py-3.5">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${getAvatarColor(company.id)} flex items-center justify-center flex-shrink-0 shadow-sm`}>
+                        <span className="text-xs font-bold text-white">{getCompanyInitials(company.name)}</span>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">{company.name}</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500">{company.location}</p>
+                      </div>
+                    </div>
+                  </td>
 
-        {/* Center: Filter Button */}
-        <Button
-          onClick={() => setIsFilterModalOpen(true)}
-          variant="outline"
-          size="sm"
-          className="h-9 gap-2 px-3 text-xs text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700"
-        >
-          <Filter className="h-4 w-4" />
-          Filtros
-        </Button>
+                  {/* Contact */}
+                  <td className="px-5 py-3.5">
+                    <div className="space-y-1">
+                      <a
+                        href={`mailto:${company.email}`}
+                        className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group w-fit"
+                      >
+                        <Mail className="h-3 w-3 text-slate-400 group-hover:text-blue-500 transition-colors flex-shrink-0" />
+                        <span className="group-hover:underline underline-offset-2">{company.email}</span>
+                      </a>
+                      <a
+                        href={`https://wa.me/${company.phone.replace(/\D/g, "")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors group w-fit"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="h-3 w-3 fill-current text-slate-400 group-hover:text-emerald-500 transition-colors flex-shrink-0"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                        </svg>
+                        <span className="group-hover:underline underline-offset-2">{company.phone}</span>
+                      </a>
+                    </div>
+                  </td>
 
-        {/* Right: Modern Pagination */}
-        <div className="flex items-center gap-1.5">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-            disabled={currentPage === 1}
-            className="h-9 w-8 p-0"
-          >
-            <ChevronLeft className="h-3.5 w-3.5" />
-          </Button>
+                  {/* CNPJ + Users */}
+                  <td className="px-5 py-3.5">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-1.5">
+                        <Hash className="h-3 w-3 text-slate-400" />
+                        <span className="text-xs font-mono text-slate-700 dark:text-slate-300">{company.document}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
+                        <Users className="h-3 w-3 text-slate-400" />
+                        {company.users_count} usuários
+                      </div>
+                    </div>
+                  </td>
 
-          <div className="flex items-center gap-0.5">
-            {getPageNumbers().map((page, index) => (
-              <div key={index}>
-                {page === "..." ? (
-                  <span className="text-xs text-slate-600 dark:text-slate-400 px-1.5">...</span>
+                  {/* Status */}
+                  <td className="px-5 py-3.5">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                        company.status === "active"
+                          ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
+                          : company.status === "inactive"
+                          ? "bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-300"
+                          : "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300"
+                      }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${
+                        company.status === "active" ? "bg-emerald-500" : company.status === "inactive" ? "bg-red-500" : "bg-amber-500"
+                      }`} />
+                      {company.status === "active" ? "Ativo" : company.status === "inactive" ? "Inativo" : "Pendente"}
+                    </span>
+                  </td>
+
+                  {/* Type */}
+                  <td className="px-5 py-3.5">
+                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${
+                      company.type === "company"
+                        ? "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800"
+                        : company.type === "agency"
+                        ? "bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-900/20 dark:text-violet-300 dark:border-violet-800"
+                        : "bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/20 dark:text-orange-300 dark:border-orange-800"
+                    }`}>
+                      {getTypeLabel(company.type)}
+                    </span>
+                  </td>
+
+                  {/* Actions */}
+                  <td className="px-5 py-3.5">
+                    <div className="flex items-center justify-end gap-1">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleViewCompany(company)}
+                              className="h-8 w-8 p-0 rounded-lg text-blue-500 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent className="text-xs">Ver Detalhes</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDeleteCompany(company.id)}
+                              className="h-8 w-8 p-0 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent className="text-xs">Excluir</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Empty State */}
+        {paginatedCompanies.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-16 text-slate-400">
+            <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-3">
+              <Building2 className="h-7 w-7 opacity-40" />
+            </div>
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Nenhuma empresa encontrada</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Tente ajustar os filtros ou busca</p>
+          </div>
+        )}
+
+        {/* Bottom Pagination */}
+        {filteredCompanies.length > 0 && (
+          <div className="flex items-center justify-between px-5 py-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/20">
+            <div className="flex items-center gap-2">
+              <ItemsPerPageSelect
+                value={pageSize.toString()}
+                onValueChange={(value) => { setPageSize(Number(value)); setCurrentPage(1) }}
+                variant="bottom"
+              />
+              <span className="text-xs text-slate-400">
+                de {filteredCompanies.length} empresa{filteredCompanies.length !== 1 ? "s" : ""}
+              </span>
+            </div>
+            <div className="flex items-center gap-0.5">
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="h-7 w-7 flex items-center justify-center rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+              </button>
+              {getPageNumbers().map((page, index) =>
+                page === "..." ? (
+                  <span key={index} className="text-xs text-slate-300 px-0.5">·</span>
                 ) : (
-                  <Button
+                  <button
+                    key={index}
                     onClick={() => setCurrentPage(Number(page))}
-                    variant={page === currentPage ? "default" : "outline"}
-                    size="sm"
-                    className={`h-9 w-8 p-0 text-xs font-semibold ${
+                    className={`h-7 w-7 flex items-center justify-center rounded-full text-xs font-semibold transition-colors ${
                       page === currentPage
-                        ? "bg-blue-600 hover:bg-blue-700 text-white border-blue-600 dark:border-blue-600"
-                        : "text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700"
+                        ? "bg-blue-500 text-white shadow-sm shadow-blue-200 dark:shadow-blue-900/40"
+                        : "text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-400"
                     }`}
                   >
                     {page}
-                  </Button>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-            disabled={currentPage === totalPages}
-            className="h-9 w-8 p-0"
-          >
-            <ChevronRight className="h-3.5 w-3.5" />
-          </Button>
-        </div>
-      </div>
-
-      {/* Table Container */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-slate-200/60 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/20">
-            <tr>
-              <th className="px-4 py-2.5 font-semibold text-xs text-slate-700 dark:text-slate-300">Empresa</th>
-              <th className="px-4 py-2.5 font-semibold text-xs text-slate-700 dark:text-slate-300">Contato</th>
-              <th className="px-4 py-2.5 font-semibold text-xs text-slate-700 dark:text-slate-300">Dados</th>
-              <th className="px-4 py-2.5 font-semibold text-xs text-slate-700 dark:text-slate-300">Status</th>
-              <th className="px-4 py-2.5 font-semibold text-xs text-slate-700 dark:text-slate-300">Tipo</th>
-              <th className="px-4 py-2.5 font-semibold text-xs text-slate-700 dark:text-slate-300">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedCompanies.map((company) => (
-              <tr
-                key={company.id}
-                className="border-b border-slate-200/40 dark:border-slate-700/40 hover:bg-slate-50/50 dark:hover:bg-slate-900/30 transition-colors"
-              >
-                {/* Company Name */}
-                <td className="px-4 py-2">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 flex items-center justify-center flex-shrink-0">
-                      <Building2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-medium text-xs text-slate-900 dark:text-slate-100 truncate">{company.name}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{company.location}</p>
-                    </div>
-                  </div>
-                </td>
-
-                {/* Contact */}
-                <td className="px-4 py-2">
-                  <div className="space-y-0.5">
-                    <p className="text-xs text-slate-900 dark:text-slate-100">{company.email}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{company.phone}</p>
-                  </div>
-                </td>
-
-                {/* Document/CNPJ */}
-                <td className="px-4 py-2">
-                  <div className="space-y-0.5">
-                    <p className="text-xs font-medium text-slate-900 dark:text-slate-100">CNPJ:</p>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 font-mono">{company.document}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                      <Users className="inline h-3 w-3 mr-1" />
-                      {company.users_count} usuários
-                    </p>
-                  </div>
-                </td>
-
-                {/* Status Badge */}
-                <td className="px-4 py-2">
-                  <Badge
-                    className={
-                      company.status === "active"
-                        ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 text-xs px-2 py-0.5"
-                        : company.status === "inactive"
-                        ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 text-xs px-2 py-0.5"
-                        : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300 text-xs px-2 py-0.5"
-                    }
-                  >
-                    {company.status === "active" ? "Ativo" : company.status === "inactive" ? "Inativo" : "Pendente"}
-                  </Badge>
-                </td>
-
-                {/* Type Badge */}
-                <td className="px-4 py-2">
-                  <Badge variant="outline" className="text-xs px-2 py-0.5">
-                    {getTypeLabel(company.type)}
-                  </Badge>
-                </td>
-
-                {/* Actions */}
-                <td className="px-4 py-2">
-                  <div className="flex items-center justify-end gap-1">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleViewCompany(company)}
-                            className="h-7 w-7 p-0 hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-900/30 dark:hover:text-blue-300 rounded"
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent className="text-xs">Ver Detalhes</TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDeleteCompany(company.id)}
-                            className="h-7 w-7 p-0 hover:bg-red-100 hover:text-red-700 dark:hover:bg-red-900/30 dark:hover:text-red-300 rounded"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent className="text-xs">Excluir</TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {paginatedCompanies.length === 0 && (
-        <div className="text-center py-6 text-slate-500">
-          <Building2 className="h-8 w-8 mx-auto mb-2 opacity-30" />
-          <p className="text-xs">Nenhuma empresa encontrada</p>
-        </div>
-      )}
-
-      {/* Pagination Bottom - Modern Numeric */}
-      {filteredCompanies.length > 0 && (
-        <div className="flex items-center justify-between border-t border-slate-200/60 dark:border-slate-700/60 pt-3 pb-2">
-          <ItemsPerPageSelect 
-            value={pageSize.toString()} 
-            onValueChange={(value) => {
-              setPageSize(Number(value))
-              setCurrentPage(1)
-            }}
-            variant="bottom"
-          />
-
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-              className="h-7 w-7 p-0"
-            >
-              <ChevronLeft className="h-3.5 w-3.5" />
-            </Button>
-
-            <div className="flex items-center gap-1">
-              {getPageNumbers().map((page, index) => (
-                <div key={index}>
-                  {page === "..." ? (
-                    <span className="text-xs text-slate-600 dark:text-slate-400 px-2">...</span>
-                  ) : (
-                    <Button
-                      onClick={() => setCurrentPage(Number(page))}
-                      variant={page === currentPage ? "default" : "outline"}
-                      size="sm"
-                      className={`h-7 w-7 p-0 text-xs font-medium ${
-                        page === currentPage
-                          ? "bg-blue-600 hover:bg-blue-700 text-white border-blue-600 dark:border-blue-600"
-                          : "text-slate-700 dark:text-slate-300"
-                      }`}
-                    >
-                      {page}
-                    </Button>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage === totalPages}
-              className="h-7 w-7 p-0"
-            >
-              <ChevronRight className="h-3.5 w-3.5" />
-            </Button>
-          </div>
-        </div>
-      )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Advanced Filters Modal - Two Columns Layout (Saved Filters + Configuration) */}
-      {isFilterModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
-            onClick={() => {
-              if (unsavedChanges) {
-                if (!window.confirm("Você tem alterações não salvas. Deseja sair?")) {
-                  return
-                }
-              }
-              setIsFilterModalOpen(false)
-              setSelectedFilterId(null)
-              setIsEditingFilter(false)
-              setUnsavedChanges(false)
-            }}
-          />
-
-          <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-5xl mx-4 max-h-[85vh] border border-slate-200 dark:border-slate-700 animate-in fade-in zoom-in duration-300 flex flex-col overflow-hidden">
-            {/* Header with gradient */}
-            <div className="flex items-center justify-between px-8 py-5 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white flex-shrink-0">
-              <div>
-                <h2 className="text-lg font-bold">Filtros Avançados de Empresas</h2>
-                <p className="text-xs text-blue-100 mt-0.5">
-                  {selectedFilterId && !isEditingFilter ? "Filtro carregado" : isEditingFilter ? "Editando filtro" : "Configure filtros detalhados"}
-                  {unsavedChanges && " • Alterações não salvas"}
-                </p>
-              </div>
+                  </button>
+                )
+              )}
               <button
-                onClick={() => {
-                  if (unsavedChanges) {
-                    if (!window.confirm("Você tem alterações não salvas. Deseja sair?")) {
-                      return
-                    }
-                  }
-                  setIsFilterModalOpen(false)
-                  setSelectedFilterId(null)
-                  setIsEditingFilter(false)
-                  setUnsavedChanges(false)
-                }}
-                className="text-white hover:bg-white/20 rounded-lg p-1.5 transition-colors flex-shrink-0"
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="h-7 w-7 flex items-center justify-center rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:pointer-events-none transition-colors"
               >
-                <X className="h-5 w-5" />
+                <ChevronRight className="h-3.5 w-3.5" />
               </button>
             </div>
+          </div>
+        )}
+      </Card>
 
-            {/* Content - Two columns with flex layout */}
-            <div className="flex flex-1 overflow-hidden">
-              {/* Left Column - Saved Filters (30%) */}
-              <div className="w-1/3 border-r border-slate-200 dark:border-slate-700 p-5 overflow-y-auto flex-shrink-0 bg-slate-50/30 dark:bg-slate-900/20">
-                <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                  <Filter className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                  Filtros Salvos
-                </h3>
-                
-                {savedFilters.length === 0 ? (
-                  <div className="text-center py-12">
-                    <div className="text-slate-300 dark:text-slate-600 mb-3">
-                      <Filter className="h-8 w-8 mx-auto opacity-40" />
-                    </div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                      Você ainda não possui filtros salvos
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    {savedFilters.map((filter) => (
-                      <div
-                        key={filter.id}
-                        className={`p-3 rounded-lg border transition-all group cursor-pointer ${
-                          selectedFilterId === filter.id
-                            ? "bg-blue-50 dark:bg-blue-950/30 border-blue-300 dark:border-blue-700"
-                            : "bg-white dark:bg-slate-700/40 hover:bg-blue-50 dark:hover:bg-slate-700/60 border-slate-200 dark:border-slate-600/50"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between gap-2 mb-2">
-                          <p className="text-sm font-medium text-slate-900 dark:text-white truncate flex-1">
-                            {filter.name}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button
-                            onClick={() => {
-                              setAdvancedFilters(filter.filters)
-                              setSelectedFilterId(filter.id)
-                              setIsEditingFilter(false)
-                              setUnsavedChanges(false)
-                            }}
-                            className="flex-1 px-2 py-1.5 rounded text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
-                            title="Carregar"
-                          >
-                            Carregar
-                          </button>
-                          <button
-                            onClick={() => {
-                              setAdvancedFilters(filter.filters)
-                              setSelectedFilterId(null)
-                              setIsEditingFilter(false)
-                              setIsDuplicatingFilter(true)
-                              setFilterName(`${filter.name} (Cópia)`)
-                              setSaveAsFilter(true)
-                            }}
-                            className="p-1.5 rounded hover:bg-emerald-100 dark:hover:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 transition-colors"
-                            title="Duplicar"
-                          >
-                            <Copy className="h-4 w-4" />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setSavedFilters(savedFilters.filter((f) => f.id !== filter.id))
-                              if (selectedFilterId === filter.id) {
-                                setSelectedFilterId(null)
-                                setIsEditingFilter(false)
-                              }
-                            }}
-                            className="p-1.5 rounded hover:bg-red-100 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 transition-colors"
-                            title="Excluir"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+      {/* Advanced Filters Modal */}
+      {isFilterModalOpen && (() => {
+        const allFilterFields = [
+          { id: "nome",         label: "Nome da Empresa",      section: "identificacao" },
+          { id: "cnpj",         label: "CNPJ",                 section: "identificacao" },
+          { id: "email",        label: "E-mail",               section: "identificacao" },
+          { id: "telefone",     label: "Telefone / WhatsApp",  section: "identificacao" },
+          { id: "localizacao",  label: "Cidade / Estado",      section: "identificacao" },
+          { id: "tipo",         label: "Tipo de conta",        section: "tipo_status" },
+          { id: "status",       label: "Status",               section: "tipo_status" },
+          { id: "plano",        label: "Plano",                section: "plano_parceiro" },
+          { id: "parceiro",     label: "Nível de Parceiro",   section: "plano_parceiro" },
+          { id: "usuarios",     label: "Usuários",             section: "volumes" },
+          { id: "projetos",     label: "Projetos",             section: "volumes" },
+          { id: "data_cadastro",label: "Data de Cadastro",     section: "data" },
+          { id: "bitrix",       label: "Bitrix ID",            section: "integracoes" },
+          { id: "asaas",        label: "Asaas ID",             section: "integracoes" },
+        ]
+        const has = (id: string) => visibleFields.includes(id)
+        const hasSection = (...ids: string[]) => ids.some(id => has(id))
+        const handleDrop = (targetId: string) => {
+          if (!draggingFilterId || draggingFilterId === targetId) return
+          const from = savedFilters.findIndex(f => f.id === draggingFilterId)
+          const to = savedFilters.findIndex(f => f.id === targetId)
+          if (from === -1 || to === -1) return
+          const reordered = [...savedFilters]
+          const [moved] = reordered.splice(from, 1)
+          reordered.splice(to, 0, moved)
+          setSavedFilters(reordered)
+          setDraggingFilterId(null)
+          setDragOverFilterId(null)
+        }
+        return (
+          <div
+            className="fixed z-50 flex items-center justify-center p-4 bg-black/25 backdrop-blur-[3px]"
+            style={{ left: sidebarWidth, top: headerHeight, bottom: footerHeight, right: 0 }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                if (unsavedChanges && !window.confirm("Alterações não salvas. Deseja sair?")) return
+                setIsFilterModalOpen(false); setSelectedFilterId(null); setIsEditingFilter(false); setUnsavedChanges(false)
+                setShowFieldPicker(false)
+              }
+            }}
+          >
 
-              {/* Right Column - Filter Configuration with Accordion (70%) */}
-              <div className="flex-1 overflow-y-auto p-6 pb-32">
-                <Accordion type="multiple" defaultValue={["identificacao", "tipo-status"]} className="space-y-3">
-                  
-                  {/* SEÇÃO: IDENTIFICAÇÃO */}
-                  <AccordionItem value="identificacao" className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
-                    <AccordionTrigger className="bg-slate-50 dark:bg-slate-700/40 hover:bg-slate-100 dark:hover:bg-slate-700/60 px-4 py-3 transition-colors">
-                      <span className="text-sm font-semibold text-slate-900 dark:text-white">Identificação</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="p-4 space-y-3 bg-white dark:bg-slate-800/50">
-                      <div className="grid grid-cols-2 gap-3">
-                        <Input
-                          placeholder="Nome da Empresa"
-                          value={advancedFilters.name}
-                          onChange={(e) => {
-                            setAdvancedFilters({...advancedFilters, name: e.target.value})
-                            if (selectedFilterId) setUnsavedChanges(true)
-                          }}
-                          className="h-8 text-sm"
-                        />
-                        <Input
-                          placeholder="CNPJ"
-                          value={advancedFilters.cnpj}
-                          onChange={(e) => {
-                            setAdvancedFilters({...advancedFilters, cnpj: e.target.value})
-                            if (selectedFilterId) setUnsavedChanges(true)
-                          }}
-                          className="h-8 text-sm"
-                        />
-                        <Input
-                          placeholder="E-mail"
-                          value={advancedFilters.email}
-                          onChange={(e) => {
-                            setAdvancedFilters({...advancedFilters, email: e.target.value})
-                            if (selectedFilterId) setUnsavedChanges(true)
-                          }}
-                          className="h-8 text-sm"
-                        />
-                        <Input
-                          placeholder="Telefone"
-                          value={advancedFilters.phone}
-                          onChange={(e) => {
-                            setAdvancedFilters({...advancedFilters, phone: e.target.value})
-                            if (selectedFilterId) setUnsavedChanges(true)
-                          }}
-                          className="h-8 text-sm"
-                        />
-                      </div>
-                      <div className="grid grid-cols-2 gap-3 items-end">
-                        <Input
-                          placeholder="WhatsApp"
-                          value={advancedFilters.whatsapp}
-                          onChange={(e) => {
-                            setAdvancedFilters({...advancedFilters, whatsapp: e.target.value})
-                            if (selectedFilterId) setUnsavedChanges(true)
-                          }}
-                          className="h-8 text-sm"
-                        />
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  {/* SEÇÃO: TIPO E STATUS */}
-                  <AccordionItem value="tipo-status" className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
-                    <AccordionTrigger className="bg-slate-50 dark:bg-slate-700/40 hover:bg-slate-100 dark:hover:bg-slate-700/60 px-4 py-3 transition-colors">
-                      <span className="text-sm font-semibold text-slate-900 dark:text-white">Tipo de Empresa e Status</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="p-4 space-y-3 bg-white dark:bg-slate-800/50">
-                      <div>
-                        <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 block">Tipo de Empresa</label>
-                        <div className="flex flex-wrap gap-2">
-                          {["company", "agency", "nomad"].map((type) => (
-                            <label key={type} className="flex items-center gap-2 cursor-pointer">
-                              <input
-                                type="checkbox"
-                                checked={advancedFilters.types.includes(type)}
-                                onChange={(e) => {
-                                  setAdvancedFilters({
-                                    ...advancedFilters,
-                                    types: e.target.checked
-                                      ? [...advancedFilters.types, type]
-                                      : advancedFilters.types.filter((t) => t !== type),
-                                  })
-                                  if (selectedFilterId) setUnsavedChanges(true)
-                                }}
-                                className="rounded border-slate-300 dark:border-slate-600"
-                              />
-                              <span className="text-sm text-slate-700 dark:text-slate-300 capitalize">
-                                {type === "company" ? "Empresa" : type === "agency" ? "Agência" : "Nômade"}
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 block">Status</label>
-                        <div className="flex flex-wrap gap-2">
-                          {["active", "inactive", "pending"].map((status) => (
-                            <label key={status} className="flex items-center gap-2 cursor-pointer">
-                              <input
-                                type="checkbox"
-                                checked={advancedFilters.statuses.includes(status)}
-                                onChange={(e) => {
-                                  setAdvancedFilters({
-                                    ...advancedFilters,
-                                    statuses: e.target.checked
-                                      ? [...advancedFilters.statuses, status]
-                                      : advancedFilters.statuses.filter((s) => s !== status),
-                                  })
-                                  if (selectedFilterId) setUnsavedChanges(true)
-                                }}
-                                className="rounded border-slate-300 dark:border-slate-600"
-                              />
-                              <span className="text-sm text-slate-700 dark:text-slate-300">
-                                {status === "active" ? "Ativo" : status === "inactive" ? "Inativo" : "Pendente"}
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  {/* SEÇÃO: DATAS */}
-                  <AccordionItem value="datas" className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
-                    <AccordionTrigger className="bg-slate-50 dark:bg-slate-700/40 hover:bg-slate-100 dark:hover:bg-slate-700/60 px-4 py-3 transition-colors">
-                      <span className="text-sm font-semibold text-slate-900 dark:text-white">Período de Datas</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="p-4 space-y-3 bg-white dark:bg-slate-800/50">
-                      <div>
-                        <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 block">Data de Cadastro</label>
-                        <div className="flex gap-2">
-                          <Input type="date" value={advancedFilters.registrationDateFrom} onChange={(e) => {
-                            setAdvancedFilters({...advancedFilters, registrationDateFrom: e.target.value})
-                            if (selectedFilterId) setUnsavedChanges(true)
-                          }} className="h-8 text-sm flex-1" />
-                          <Input type="date" value={advancedFilters.registrationDateTo} onChange={(e) => {
-                            setAdvancedFilters({...advancedFilters, registrationDateTo: e.target.value})
-                            if (selectedFilterId) setUnsavedChanges(true)
-                          }} className="h-8 text-sm flex-1" />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 block">Último Acesso</label>
-                        <div className="flex gap-2">
-                          <Input type="date" value={advancedFilters.lastAccessDateFrom} onChange={(e) => {
-                            setAdvancedFilters({...advancedFilters, lastAccessDateFrom: e.target.value})
-                            if (selectedFilterId) setUnsavedChanges(true)
-                          }} className="h-8 text-sm flex-1" />
-                          <Input type="date" value={advancedFilters.lastAccessDateTo} onChange={(e) => {
-                            setAdvancedFilters({...advancedFilters, lastAccessDateTo: e.target.value})
-                            if (selectedFilterId) setUnsavedChanges(true)
-                          }} className="h-8 text-sm flex-1" />
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </div>
-            </div>
-
-            {/* Footer - Fixed */}
-            <div className="flex items-center justify-between p-5 border-t border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/30 flex-shrink-0">
-              <Button
-                onClick={() => {
-                  setAdvancedFilters({
-                    name: "",
-                    cnpj: "",
-                    email: "",
-                    phone: "",
-                    whatsapp: "",
-                    types: [],
-                    statuses: [],
-                    registrationDateFrom: "",
-                    registrationDateTo: "",
-                    lastAccessDateFrom: "",
-                    lastAccessDateTo: "",
-                  })
-                  setUnsavedChanges(true)
-                }}
-                variant="outline"
-                size="sm"
-                className="px-4 py-2 text-sm rounded-lg"
-              >
-                Limpar
-              </Button>
-
-              <div className="flex items-center justify-end gap-3">
-                {unsavedChanges && selectedFilterId && (
-                  <Button
-                    onClick={() => {
-                      const updatedFilter = {
-                        id: selectedFilterId,
-                        name: savedFilters.find((f) => f.id === selectedFilterId)?.name || "",
-                        filters: advancedFilters,
-                      }
-                      setSavedFilters(savedFilters.map((f) => (f.id === selectedFilterId ? updatedFilter : f)))
-                      setUnsavedChanges(false)
-                    }}
-                    size="sm"
-                    className="px-4 py-2 text-sm rounded-lg bg-amber-600 hover:bg-amber-700 text-white"
-                  >
-                    Salvar Alterações
-                  </Button>
-                )}
-
-                {!selectedFilterId || unsavedChanges ? (
-                  <Button
-                    onClick={() => {
-                      if (!filterName && !selectedFilterId) {
-                        const newId = `filter-${Date.now()}`
-                        const newFilterName = prompt("Nome do filtro:", `Filtro ${savedFilters.length + 1}`)
-                        if (newFilterName) {
-                          setSavedFilters([...savedFilters, { id: newId, name: newFilterName, filters: advancedFilters }])
-                          setSelectedFilterId(newId)
-                          setUnsavedChanges(false)
-                        }
-                      }
-                    }}
-                    size="sm"
-                    className="px-4 py-2 text-sm rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white"
-                  >
-                    Salvar Filtro
-                  </Button>
-                ) : null}
-
-                <Button
+            <div className="relative bg-white dark:bg-slate-900 rounded-xl shadow-2xl w-full max-w-[820px] max-h-[82vh] border border-slate-200 dark:border-slate-700 animate-in fade-in zoom-in duration-200 flex flex-col overflow-hidden">
+              {/* Header — follows sidebar theme */}
+              <div className="flex items-center justify-between px-5 py-3 flex-shrink-0" style={getHeaderStyle()}>
+                <div>
+                  <h2 className="text-sm font-bold text-white">Filtros Avançados</h2>
+                  <p className="text-[11px] text-white/60 mt-0.5">
+                    {unsavedChanges ? "• Alterações não salvas" : selectedFilterId && !isEditingFilter ? "Filtro carregado" : "Configure e aplique filtros"}
+                  </p>
+                </div>
+                <button
                   onClick={() => {
-                    if (unsavedChanges) {
-                      if (!window.confirm("Você tem alterações não salvas. Deseja sair?")) {
-                        return
-                      }
-                    }
-                    setIsFilterModalOpen(false)
-                    setSelectedFilterId(null)
-                    setIsEditingFilter(false)
+                    if (unsavedChanges && !window.confirm("Alterações não salvas. Deseja sair?")) return
+                    setIsFilterModalOpen(false); setSelectedFilterId(null); setIsEditingFilter(false); setUnsavedChanges(false)
+                    setShowFieldPicker(false)
+                  }}
+                  className="text-white/70 hover:text-white hover:bg-white/20 rounded-lg p-1.5 transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="flex flex-1 overflow-hidden min-h-0">
+                {/* Left — Saved Filters */}
+                <div className="w-44 border-r border-slate-200 dark:border-slate-700 flex-shrink-0 bg-slate-50 dark:bg-slate-800/50 flex flex-col overflow-hidden">
+                  <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-3 pt-3 pb-2 flex items-center gap-1 flex-shrink-0">
+                    <Filter className="h-3 w-3" /> Filtros Salvos
+                  </p>
+                  <div className="flex-1 overflow-y-auto px-2 pb-3 space-y-1">
+                    {savedFilters.length === 0 ? (
+                      <div className="text-center py-8">
+                        <Filter className="h-6 w-6 mx-auto text-slate-300 dark:text-slate-600 mb-1.5" />
+                        <p className="text-[10px] text-slate-400 dark:text-slate-500">Nenhum filtro salvo</p>
+                      </div>
+                    ) : (
+                      savedFilters.map((filter) => (
+                        <div
+                          key={filter.id}
+                          draggable
+                          onDragStart={() => setDraggingFilterId(filter.id)}
+                          onDragOver={(e) => { e.preventDefault(); setDragOverFilterId(filter.id) }}
+                          onDrop={() => handleDrop(filter.id)}
+                          onDragEnd={() => { setDraggingFilterId(null); setDragOverFilterId(null) }}
+                          onClick={() => {
+                            if (editingFilterId) return
+                            setAdvancedFilters(filter.filters)
+                            setSelectedFilterId(filter.id)
+                            setIsEditingFilter(false)
+                            setUnsavedChanges(false)
+                          }}
+                          className={`group relative flex items-center gap-1 p-2 rounded-lg border text-[11px] cursor-pointer transition-all select-none ${
+                            dragOverFilterId === filter.id && draggingFilterId !== filter.id ? "border-blue-400 bg-blue-50 dark:bg-blue-950/30" :
+                            draggingFilterId === filter.id ? "opacity-40" :
+                            selectedFilterId === filter.id
+                              ? "bg-blue-50 dark:bg-blue-950/30 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300 font-semibold"
+                              : "bg-white dark:bg-slate-700/40 border-slate-200 dark:border-slate-600/50 text-slate-700 dark:text-slate-300 hover:border-blue-300"
+                          }`}
+                        >
+                          {/* Drag handle */}
+                          <GripVertical className="h-3 w-3 text-slate-300 dark:text-slate-600 flex-shrink-0 cursor-grab active:cursor-grabbing" />
+
+                          {editingFilterId === filter.id ? (
+                            <input
+                              autoFocus
+                              type="text"
+                              value={editingFilterName}
+                              onChange={(e) => setEditingFilterName(e.target.value)}
+                              onClick={(e) => e.stopPropagation()}
+                              onKeyDown={(e) => {
+                                e.stopPropagation()
+                                if (e.key === "Enter" && editingFilterName.trim()) {
+                                  setSavedFilters(savedFilters.map(f => f.id === filter.id ? { ...f, name: editingFilterName.trim() } : f))
+                                  setEditingFilterId(null)
+                                } else if (e.key === "Escape") setEditingFilterId(null)
+                              }}
+                              onBlur={() => {
+                                if (editingFilterName.trim())
+                                  setSavedFilters(savedFilters.map(f => f.id === filter.id ? { ...f, name: editingFilterName.trim() } : f))
+                                setEditingFilterId(null)
+                              }}
+                              className="flex-1 min-w-0 text-[11px] bg-white dark:bg-slate-700 border border-blue-400 rounded px-1 py-0 outline-none focus:ring-1 focus:ring-blue-400 text-slate-700 dark:text-slate-200"
+                            />
+                          ) : (
+                            <span className="flex-1 truncate">{filter.name}</span>
+                          )}
+
+                          {/* Action icons — shown on hover */}
+                          {editingFilterId !== filter.id && (
+                            <div className="opacity-0 group-hover:opacity-100 flex items-center gap-0.5 transition-opacity flex-shrink-0">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  setEditingFilterId(filter.id)
+                                  setEditingFilterName(filter.name)
+                                }}
+                                title="Renomear"
+                                className="p-0.5 rounded hover:bg-blue-100 hover:text-blue-500 text-slate-400 transition-all"
+                              >
+                                <Pencil className="h-2.5 w-2.5" />
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  setSavedFilters(savedFilters.filter(f => f.id !== filter.id))
+                                  if (selectedFilterId === filter.id) setSelectedFilterId(null)
+                                }}
+                                title="Excluir"
+                                className="p-0.5 rounded hover:bg-red-100 hover:text-red-500 text-slate-400 transition-all"
+                              >
+                                <X className="h-2.5 w-2.5" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+
+                {/* Right — Filter config */}
+                <div className="flex-1 min-h-0 flex flex-col relative">
+
+                  {/* Field-picker dropdown */}
+                  {showFieldPicker && (
+                    <div
+                      className="absolute top-10 left-3 z-20 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl p-4 w-[520px] animate-in fade-in zoom-in-95 duration-150"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">Campos disponíveis</p>
+                        <div className="flex items-center gap-3">
+                          <button onClick={() => setVisibleFields(allFilterFields.map(f => f.id))} className="text-[11px] text-blue-500 hover:text-blue-700 font-medium transition-colors">Selecionar todos</button>
+                          <button onClick={() => setVisibleFields([])} className="text-[11px] text-slate-400 hover:text-red-500 transition-colors">Limpar</button>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-x-6 gap-y-1">
+                        {allFilterFields.map(field => {
+                          const checked = visibleFields.includes(field.id)
+                          return (
+                            <label key={field.id} className="flex items-center gap-2 py-1 cursor-pointer group">
+                              <div
+                                onClick={() => setVisibleFields(checked ? visibleFields.filter(f => f !== field.id) : [...visibleFields, field.id])}
+                                className={`w-4 h-4 rounded flex items-center justify-center border-2 transition-colors flex-shrink-0 ${
+                                  checked ? "bg-blue-500 border-blue-500" : "border-slate-300 dark:border-slate-600 group-hover:border-blue-400"
+                                }`}
+                              >
+                                {checked && (
+                                  <svg viewBox="0 0 10 8" className="w-2.5 h-2.5 text-white fill-none stroke-current stroke-[2]">
+                                    <path d="M1 4l3 3 5-6" strokeLinecap="round" strokeLinejoin="round" />
+                                  </svg>
+                                )}
+                              </div>
+                              <span className="text-[12px] text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors select-none">{field.label}</span>
+                            </label>
+                          )
+                        })}
+                      </div>
+                      <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                        <button
+                          onClick={() => setVisibleFields(["nome","status","tipo","plano","parceiro","data_cadastro"])}
+                          className="text-[11px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                        >Recuperar campos padrão</button>
+                        <button
+                          onClick={() => setShowFieldPicker(false)}
+                          className="h-7 px-3 rounded-md text-[11px] font-medium bg-gradient-to-r from-blue-600 to-violet-600 text-white"
+                        >Confirmar</button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* "Adicionar campo" link bar */}
+                  <div className="flex items-center gap-3 px-4 pt-2.5 pb-2 border-b border-slate-100 dark:border-slate-800 flex-shrink-0">
+                    <button
+                      onClick={() => setShowFieldPicker(!showFieldPicker)}
+                      className={`text-[12px] font-medium transition-colors ${
+                        showFieldPicker ? "text-blue-600" : "text-blue-500 hover:text-blue-700"
+                      }`}
+                    >
+                      + Adicionar campo
+                    </button>
+                    {visibleFields.length > 0 && (
+                      <span className="text-[11px] text-slate-400">{visibleFields.length} campo{visibleFields.length !== 1 ? "s" : ""} ativo{visibleFields.length !== 1 ? "s" : ""}</span>
+                    )}
+                    {showFieldPicker && (
+                      <button onClick={() => setShowFieldPicker(false)} className="ml-auto text-slate-400 hover:text-slate-600 transition-colors">
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Filter fields */}
+                  <div className="flex-1 overflow-y-auto p-4 space-y-4">
+
+                    {/* Identificação */}
+                    {hasSection("nome","cnpj","email","telefone","localizacao") && (
+                      <div>
+                        <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Identificação</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {has("nome") && <Input placeholder="Nome da Empresa" value={advancedFilters.name} onChange={(e) => { setAdvancedFilters({...advancedFilters, name: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs" />}
+                          {has("cnpj") && <Input placeholder="CNPJ" value={advancedFilters.cnpj} onChange={(e) => { setAdvancedFilters({...advancedFilters, cnpj: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs" />}
+                          {has("email") && <Input placeholder="E-mail" value={advancedFilters.email} onChange={(e) => { setAdvancedFilters({...advancedFilters, email: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs" />}
+                          {has("telefone") && <Input placeholder="Telefone / WhatsApp" value={advancedFilters.phone} onChange={(e) => { setAdvancedFilters({...advancedFilters, phone: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs" />}
+                          {has("localizacao") && <Input placeholder="Cidade / Estado" value={advancedFilters.location} onChange={(e) => { setAdvancedFilters({...advancedFilters, location: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs col-span-2" />}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Tipo e Status */}
+                    {hasSection("tipo","status") && (
+                      <div>
+                        <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Tipo · Status</p>
+                        <div className="space-y-2">
+                          {has("tipo") && (
+                            <div className="flex flex-wrap gap-1.5">
+                              {[{v:"company",l:"Empresa"},{v:"agency",l:"Agência"},{v:"nomad",l:"Nômade"}].map(({v,l}) => (
+                                <button key={v} onClick={() => { const t = advancedFilters.types.includes(v) ? advancedFilters.types.filter(x=>x!==v) : [...advancedFilters.types,v]; setAdvancedFilters({...advancedFilters, types: t}); if (selectedFilterId) setUnsavedChanges(true) }}
+                                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium border transition-colors ${advancedFilters.types.includes(v) ? "bg-blue-500 text-white border-blue-500" : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:border-blue-300"}`}>
+                                  {l}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                          {has("status") && (
+                            <div className="flex flex-wrap gap-1.5">
+                              {[{v:"active",l:"Ativo"},{v:"inactive",l:"Inativo"},{v:"pending",l:"Pendente"}].map(({v,l}) => (
+                                <button key={v} onClick={() => { const s = advancedFilters.statuses.includes(v) ? advancedFilters.statuses.filter(x=>x!==v) : [...advancedFilters.statuses,v]; setAdvancedFilters({...advancedFilters, statuses: s}); if (selectedFilterId) setUnsavedChanges(true) }}
+                                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium border transition-colors ${advancedFilters.statuses.includes(v) ? (v==="active"?"bg-emerald-500 text-white border-emerald-500":v==="inactive"?"bg-red-500 text-white border-red-500":"bg-amber-500 text-white border-amber-500") : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:border-blue-300"}`}>
+                                  {l}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Plano e Parceiro */}
+                    {hasSection("plano","parceiro") && (
+                      <div>
+                        <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Plano · Nível de Parceiro</p>
+                        <div className="space-y-2">
+                          {has("plano") && (
+                            <div className="flex flex-wrap gap-1.5">
+                              {["Basic","Standard","Premium","Enterprise"].map((v) => (
+                                <button key={v} onClick={() => { const a = advancedFilters.accountTypes.includes(v) ? advancedFilters.accountTypes.filter(x=>x!==v) : [...advancedFilters.accountTypes,v]; setAdvancedFilters({...advancedFilters, accountTypes: a}); if (selectedFilterId) setUnsavedChanges(true) }}
+                                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium border transition-colors ${advancedFilters.accountTypes.includes(v) ? "bg-violet-500 text-white border-violet-500" : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:border-violet-300"}`}>
+                                  {v}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                          {has("parceiro") && (
+                            <div className="flex flex-wrap gap-1.5">
+                              {["Bronze","Silver","Gold","Platinum"].map((v) => (
+                                <button key={v} onClick={() => { const p = advancedFilters.partnerLevels.includes(v) ? advancedFilters.partnerLevels.filter(x=>x!==v) : [...advancedFilters.partnerLevels,v]; setAdvancedFilters({...advancedFilters, partnerLevels: p}); if (selectedFilterId) setUnsavedChanges(true) }}
+                                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium border transition-colors ${advancedFilters.partnerLevels.includes(v) ? "bg-amber-500 text-white border-amber-500" : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:border-amber-300"}`}>
+                                  {v}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Volume */}
+                    {hasSection("usuarios","projetos") && (
+                      <div>
+                        <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Volumes</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {has("usuarios") && (
+                            <div className="space-y-1">
+                              <p className="text-[10px] text-slate-500">Usuários</p>
+                              <div className="flex items-center gap-1">
+                                <Input placeholder="Mín" type="number" value={advancedFilters.minUsers} onChange={(e) => { setAdvancedFilters({...advancedFilters, minUsers: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs" />
+                                <span className="text-slate-300 text-xs">–</span>
+                                <Input placeholder="Máx" type="number" value={advancedFilters.maxUsers} onChange={(e) => { setAdvancedFilters({...advancedFilters, maxUsers: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs" />
+                              </div>
+                            </div>
+                          )}
+                          {has("projetos") && (
+                            <div className="space-y-1">
+                              <p className="text-[10px] text-slate-500">Projetos</p>
+                              <div className="flex items-center gap-1">
+                                <Input placeholder="Mín" type="number" value={advancedFilters.minProjects} onChange={(e) => { setAdvancedFilters({...advancedFilters, minProjects: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs" />
+                                <span className="text-slate-300 text-xs">–</span>
+                                <Input placeholder="Máx" type="number" value={advancedFilters.maxProjects} onChange={(e) => { setAdvancedFilters({...advancedFilters, maxProjects: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs" />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Data de Cadastro */}
+                    {has("data_cadastro") && (
+                      <div>
+                        <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Data de Cadastro</p>
+                        <div className="flex items-center gap-2">
+                          <Input type="date" value={advancedFilters.registrationDateFrom} onChange={(e) => { setAdvancedFilters({...advancedFilters, registrationDateFrom: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs flex-1" />
+                          <span className="text-slate-300 text-xs flex-shrink-0">até</span>
+                          <Input type="date" value={advancedFilters.registrationDateTo} onChange={(e) => { setAdvancedFilters({...advancedFilters, registrationDateTo: e.target.value}); if (selectedFilterId) setUnsavedChanges(true) }} className="h-7 text-xs flex-1" />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Integrações */}
+                    {hasSection("bitrix","asaas") && (
+                      <div>
+                        <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Integrações</p>
+                        <div className="flex gap-2">
+                          {has("bitrix") && (
+                            <button onClick={() => { setAdvancedFilters({...advancedFilters, hasBitrixId: !advancedFilters.hasBitrixId}); if (selectedFilterId) setUnsavedChanges(true) }}
+                              className={`px-3 py-1 rounded-full text-[11px] font-medium border transition-colors ${advancedFilters.hasBitrixId ? "bg-cyan-500 text-white border-cyan-500" : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:border-cyan-300"}`}>
+                              Com Bitrix ID
+                            </button>
+                          )}
+                          {has("asaas") && (
+                            <button onClick={() => { setAdvancedFilters({...advancedFilters, hasAsaasId: !advancedFilters.hasAsaasId}); if (selectedFilterId) setUnsavedChanges(true) }}
+                              className={`px-3 py-1 rounded-full text-[11px] font-medium border transition-colors ${advancedFilters.hasAsaasId ? "bg-teal-500 text-white border-teal-500" : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:border-teal-300"}`}>
+                              Com Asaas ID
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {visibleFields.length === 0 && (
+                      <div className="flex flex-col items-center justify-center py-12 text-slate-400">
+                        <Filter className="h-8 w-8 mb-2 opacity-30" />
+                        <p className="text-xs text-center">Nenhum campo ativo.<br/>Clique em <span className="text-blue-500">+ Adicionar campo</span> para configurar.</p>
+                      </div>
+                    )}
+
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/30 flex-shrink-0">
+                <button
+                  onClick={() => {
+                    setAdvancedFilters({ name:"",cnpj:"",email:"",phone:"",whatsapp:"",location:"",types:[],statuses:[],accountTypes:[],partnerLevels:[],minUsers:"",maxUsers:"",minProjects:"",maxProjects:"",hasBitrixId:false,hasAsaasId:false,registrationDateFrom:"",registrationDateTo:"" })
                     setUnsavedChanges(false)
                   }}
-                  variant="outline"
-                  size="sm"
-                  className="px-4 py-2 text-sm rounded-lg"
+                  className="text-[11px] text-slate-400 hover:text-red-500 transition-colors flex items-center gap-1"
                 >
-                  Cancelar
-                </Button>
+                  <X className="h-3 w-3" /> Limpar filtros
+                </button>
 
-                <Button
-                  onClick={() => setIsFilterModalOpen(false)}
-                  size="sm"
-                  className="px-4 py-2 text-sm rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
-                >
-                  Aplicar Filtros
-                </Button>
+                <div className="flex items-center gap-2">
+                  {/* Save / update filter */}
+                  {showSaveInput ? (
+                    <div className="flex items-center gap-1.5">
+                      <input
+                        autoFocus
+                        type="text"
+                        value={filterNameInput}
+                        onChange={(e) => setFilterNameInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && filterNameInput.trim()) {
+                            const newId = `filter-${Date.now()}`
+                            setSavedFilters([...savedFilters, { id: newId, name: filterNameInput.trim(), filters: advancedFilters }])
+                            setSelectedFilterId(newId); setUnsavedChanges(false); setShowSaveInput(false); setFilterNameInput("")
+                          }
+                          if (e.key === "Escape") { setShowSaveInput(false); setFilterNameInput("") }
+                        }}
+                        placeholder={`Filtro ${savedFilters.length + 1}`}
+                        className="h-7 px-2 rounded-md text-[11px] border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-blue-400 w-36"
+                      />
+                      <button
+                        disabled={!filterNameInput.trim()}
+                        onClick={() => {
+                          const newId = `filter-${Date.now()}`
+                          setSavedFilters([...savedFilters, { id: newId, name: filterNameInput.trim(), filters: advancedFilters }])
+                          setSelectedFilterId(newId); setUnsavedChanges(false); setShowSaveInput(false); setFilterNameInput("")
+                        }}
+                        className="h-7 px-3 rounded-md text-[11px] font-medium bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 disabled:opacity-40 text-white transition-all shadow-sm"
+                      >OK</button>
+                      <button onClick={() => { setShowSaveInput(false); setFilterNameInput("") }}
+                        className="h-7 w-7 flex items-center justify-center rounded-md text-[11px] border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:border-red-300 transition-colors">
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ) : selectedFilterId && unsavedChanges ? (
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => {
+                          setSavedFilters(savedFilters.map(f => f.id === selectedFilterId ? { ...f, filters: advancedFilters } : f))
+                          setUnsavedChanges(false)
+                        }}
+                        className="h-7 px-3 rounded-md text-[11px] font-medium bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white transition-all shadow-sm"
+                      >
+                        Atualizar filtro
+                      </button>
+                      <button
+                        onClick={() => { setFilterNameInput(`Filtro ${savedFilters.length + 1}`); setShowSaveInput(true) }}
+                        className="h-7 px-3 rounded-md text-[11px] font-medium border border-emerald-400 text-emerald-600 hover:bg-emerald-50 transition-colors"
+                      >
+                        Salvar como novo
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => { setFilterNameInput(`Filtro ${savedFilters.length + 1}`); setShowSaveInput(true) }}
+                      className="h-7 px-3 rounded-md text-[11px] font-medium bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white transition-all shadow-sm"
+                    >
+                      Salvar filtro
+                    </button>
+                  )}
+
+                  <div className="w-px h-5 bg-slate-200 dark:bg-slate-700" />
+
+                  <button
+                    onClick={() => {
+                      setIsFilterModalOpen(false); setSelectedFilterId(null); setIsEditingFilter(false); setUnsavedChanges(false); setShowFieldPicker(false)
+                    }}
+                    className="h-7 px-3 rounded-md text-[11px] font-medium border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={() => { setIsFilterModalOpen(false); setShowFieldPicker(false) }}
+                    className="h-7 px-4 rounded-md text-[11px] font-semibold bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white transition-all shadow-sm shadow-blue-200 dark:shadow-blue-900/40"
+                  >
+                    Aplicar Filtros
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-
+        )
+      })()}
       <CompanyCreateSlidePanel
         open={createPanelOpen}
         onOpenChange={setCreatePanelOpen}
         onCreate={handleCreateCompany}
+      />
+
+      <ConfirmationDialog
+        open={deleteDialog.open}
+        onClose={() => setDeleteDialog({ open: false, companyId: null, companyName: "" })}
+        onConfirm={handleConfirmDelete}
+        title="Excluir empresa"
+        message={`Tem certeza que deseja excluir "${deleteDialog.companyName}"? Esta ação não pode ser desfeita.`}
+        confirmText="Excluir"
+        cancelText="Cancelar"
+        destructive
       />
 
       {selectedCompany && (
