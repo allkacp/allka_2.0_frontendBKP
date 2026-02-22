@@ -20,6 +20,7 @@ import { CompanyTasksTab } from "@/components/company-tasks-tab"
 import { CompanyLogsTab } from "@/components/company-logs-tab"
 import { CompanyStatusSelector } from "@/components/company-status-selector"
 import { CompanySocialLinksManager, type SocialLink } from "@/components/company-social-links-manager"
+import { AddressMapPicker } from "@/components/address/address-map-picker"
 import { useState, useEffect } from "react"
 
 type CompanyType = "company" | "agency" | "nomad"
@@ -1063,6 +1064,59 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="px-3 py-3 border-t border-slate-100">
+                    {/* MAP — view: static embed | edit: interactive picker */}
+                    {!isDadosEditMode ? (
+                      (() => {
+                        const parts = [
+                          getDadosDisplayValue("street") || company.street,
+                          getDadosDisplayValue("number") || company.number,
+                          getDadosDisplayValue("neighborhood") || company.neighborhood,
+                          getDadosDisplayValue("city") || company.city,
+                          getDadosDisplayValue("state") || company.state,
+                          "Brasil",
+                        ].filter(Boolean)
+                        const query = encodeURIComponent(
+                          parts.length > 1 ? parts.join(", ") : company.location
+                        )
+                        return (
+                          <div className="mb-4 rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+                            <iframe
+                              title="Localização da empresa"
+                              width="100%"
+                              height="220"
+                              loading="lazy"
+                              src={`https://maps.google.com/maps?q=${query}&output=embed&z=15`}
+                              className="block"
+                              style={{ border: 0 }}
+                            />
+                          </div>
+                        )
+                      })()
+                    ) : (
+                      <div className="mb-4">
+                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">
+                          Localização no Mapa
+                        </label>
+                        <AddressMapPicker
+                          address={{
+                            street: getDadosDisplayValue("street") as string || company.street || "",
+                            number: getDadosDisplayValue("number") as string || company.number || "",
+                            district: getDadosDisplayValue("neighborhood") as string || company.neighborhood || "",
+                            city: getDadosDisplayValue("city") as string || company.city || "",
+                            state: getDadosDisplayValue("state") as string || company.state || "",
+                            zipcode: getDadosDisplayValue("zip_code") as string || company.zip_code || "",
+                          }}
+                          onAddressChange={(addr) => {
+                            if (addr.street !== undefined) handleDadosFieldChange("street", addr.street)
+                            if (addr.number !== undefined) handleDadosFieldChange("number", addr.number)
+                            if (addr.district !== undefined) handleDadosFieldChange("neighborhood", addr.district)
+                            if (addr.city !== undefined) handleDadosFieldChange("city", addr.city)
+                            if (addr.state !== undefined) handleDadosFieldChange("state", addr.state)
+                            if (addr.zipcode !== undefined) handleDadosFieldChange("zip_code", addr.zipcode)
+                          }}
+                        />
+                      </div>
+                    )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {/* CEP */}
                       <div>
