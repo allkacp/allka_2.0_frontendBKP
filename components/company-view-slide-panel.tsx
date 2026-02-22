@@ -795,15 +795,15 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* Seção de Estatísticas - Mesmo padrão de admin/usuarios */}
                 <Accordion type="single" collapsible defaultValue="estatisticas" className="space-y-3">
-                  <AccordionItem value="estatisticas" className="border border-slate-200 rounded-lg overflow-hidden">
-                    <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                  <AccordionItem value="estatisticas" className="border border-slate-200 rounded-lg">
+                    <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                       <div className="flex items-center gap-2">
                         <BarChart3 className="h-4 w-4 text-slate-600" />
                         <span className="font-semibold text-slate-900">Estatísticas</span>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="border-t border-slate-100">
-                      <div className="px-3 py-3">
+                    <AccordionContent className="border-t border-slate-100 pb-0">
+                      <div className="px-3 py-3 rounded-b-lg overflow-hidden">
                       <div className="grid grid-cols-3 gap-2">
                         <Card className="p-2 bg-gradient-to-br from-emerald-50 to-emerald-100/50 dark:from-emerald-950/20 dark:to-emerald-900/10 border-emerald-200/50 dark:border-emerald-800/30 shadow-none">
                           <div className="flex items-center gap-1.5 mb-0.5">
@@ -891,14 +891,14 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* Informações Principais - Accordion */}
                 <Accordion type="multiple" defaultValue={[]} className="space-y-3">
-                  <AccordionItem value="info-principais" className="border border-slate-200 rounded-lg overflow-hidden">
-                    <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                  <AccordionItem value="info-principais" className="border border-slate-200 rounded-lg">
+                    <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                       <div className="flex items-center gap-2">
                         <Building2 className="h-4 w-4 text-blue-600" />
                         <span className="font-semibold text-slate-900">Informações Principais</span>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-3 py-2 border-t border-slate-100">
+                    <AccordionContent className="px-3 py-2 border-t border-slate-100 pb-0">
                       <div className="space-y-2">
                         <div className="flex justify-between items-center">
                           <span className="text-xs text-slate-500">ID</span>
@@ -952,8 +952,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
               {/* Accordions */}
               <Accordion type="multiple" defaultValue={[]} className="space-y-3">
                 {/* DADOS CADASTRAIS */}
-                <AccordionItem value="cadastrais" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="cadastrais" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <Building2 className="h-4 w-4 text-blue-600" />
                       <span className="font-semibold text-slate-900">Dados Cadastrais</span>
@@ -1028,8 +1028,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </AccordionItem>
 
                 {/* CONTATO */}
-                <AccordionItem value="contato" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="contato" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4 text-amber-600" />
                       <span className="font-semibold text-slate-900">Contato</span>
@@ -1091,8 +1091,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </AccordionItem>
 
                 {/* ENDEREÇO */}
-                <AccordionItem value="endereco" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="endereco" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <MapPin className="h-4 w-4 text-green-600" />
                       <span className="font-semibold text-slate-900">Endereço</span>
@@ -1237,8 +1237,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </AccordionItem>
 
                 {/* FINANCEIRO */}
-                <AccordionItem value="financeiro" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="financeiro" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <Wallet className="h-4 w-4 text-red-600" />
                       <span className="font-semibold text-slate-900">Financeiro</span>
@@ -1321,8 +1321,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </AccordionItem>
 
                 {/* INFORMAÇÕES ADICIONAIS */}
-                <AccordionItem value="adicionais" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="adicionais" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <AlertCircle className="h-4 w-4 text-purple-600" />
                       <span className="font-semibold text-slate-900">Informações Adicionais</span>
@@ -1443,8 +1443,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
             <TabsContent value="plano" className="flex-1 overflow-y-auto px-4 py-4">
               <Accordion type="multiple" defaultValue={["admin", "credito", "account", "pagamento", "carteira", "nf"]} className="space-y-3">
                 {/* ACCORDION 1: AÇÕES ADMINISTRATIVAS */}
-                <AccordionItem value="admin" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="admin" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <Shield className="h-4 w-4 text-amber-600" />
                       <span className="font-semibold text-slate-900">Ações Administrativas</span>
@@ -1489,8 +1489,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </AccordionItem>
 
                 {/* ACCORDION 2: PLANO DE CRÉDITO */}
-                <AccordionItem value="credito" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="credito" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <Crown className="h-4 w-4 text-blue-600" />
                       <span className="font-semibold text-slate-900">Plano de Crédito</span>
@@ -1538,8 +1538,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </AccordionItem>
 
                 {/* ACCORDION 3: TIPO DE CONTA */}
-                <AccordionItem value="account" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="account" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <Building2 className="h-4 w-4 text-purple-600" />
                       <span className="font-semibold text-slate-900">Tipo de Conta</span>
@@ -1589,8 +1589,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </AccordionItem>
 
                 {/* ACCORDION 3: MÉTODOS DE PAGAMENTO */}
-                <AccordionItem value="pagamento" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="pagamento" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <Wallet className="h-4 w-4 text-emerald-600" />
                       <span className="font-semibold text-slate-900">Métodos de Pagamento</span>
@@ -1760,8 +1760,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </AccordionItem>
 
                 {/* ACCORDION 4: CARTEIRA DA EMPRESA */}
-                <AccordionItem value="carteira" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="carteira" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <Wallet className="h-4 w-4 text-cyan-600" />
                       <span className="font-semibold text-slate-900">Carteira da Empresa</span>
@@ -1817,8 +1817,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </AccordionItem>
 
                 {/* ACCORDION 5: NOTAS FISCAIS E COMPROVANTES */}
-                <AccordionItem value="nf" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
+                <AccordionItem value="nf" className="border border-slate-200 rounded-lg">
+                  <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] rounded-t-lg text-xs">
                     <div className="flex items-center gap-2">
                       <FileText className="h-4 w-4 text-indigo-600" />
                       <span className="font-semibold text-slate-900">Notas Fiscais e Comprovantes</span>
