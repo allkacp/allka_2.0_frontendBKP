@@ -263,8 +263,9 @@ export function CompanyCreateSlidePanel({ open, onOpenChange, onCreate }: Compan
       <div
         className={cn(
           "fixed top-0 right-0 h-full bg-white flex flex-col border-l border-gray-200 z-50 shadow-2xl",
-          "transition-all duration-300 ease-out",
-          open ? "translate-x-0" : "translate-x-full",
+          open
+            ? "translate-x-0 opacity-100 transition-[transform,opacity] duration-[560ms] ease-[cubic-bezier(0.2,0,0,1)]"
+            : "translate-x-full opacity-0 transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.4,0,1,1)]",
         )}
         style={{ left: `${sidebarWidth}px`, width: panelWidth }}
       >
