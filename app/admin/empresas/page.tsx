@@ -60,9 +60,9 @@ type Company = {
 const mockCompanies: Company[] = [
   {
     id: 1,
-    name: "Acme Corporation",
+    name: "Coca-Cola Brasil",
     type: "company",
-    email: "contact@acme.com",
+    email: "contact@cocacola.com.br",
     phone: "+55 11 98412-7630",
     document: "12.345.678/0001-90",
     location: "São Paulo, SP",
@@ -77,13 +77,13 @@ const mockCompanies: Company[] = [
     dau: 310,
     bitrix_id: "BT-82741",
     asaas_id: "AS-114903",
-    avatar: "https://logo.clearbit.com/coca-cola.com",
+    avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/200px-Coca-Cola_logo.svg.png",
   },
   {
     id: 2,
-    name: "Tech Solutions",
+    name: "Starbucks Coffee",
     type: "agency",
-    email: "info@techsolutions.com",
+    email: "info@starbucks.com.br",
     phone: "+55 21 97203-5581",
     document: "98.765.432/0001-10",
     location: "Rio de Janeiro, RJ",
@@ -95,13 +95,13 @@ const mockCompanies: Company[] = [
     created_at: "2023-02-20",
     mau: 290,
     dau: 74,
-    avatar: "https://logo.clearbit.com/starbucks.com",
+    avatar: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/200px-Starbucks_Corporation_Logo_2011.svg.png",
   },
   {
     id: 3,
-    name: "Inovação Digital Ltda",
+    name: "Fundação Wikimedia",
     type: "company",
-    email: "contato@inovacaodigital.com.br",
+    email: "contato@wikimedia.org.br",
     phone: "+55 31 96554-0218",
     document: "23.456.789/0001-01",
     location: "Belo Horizonte, MG",
@@ -117,7 +117,7 @@ const mockCompanies: Company[] = [
     bitrix_id: "BT-33019",
     asaas_id: "AS-556781",
     avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Wikimedia-logo.svg/200px-Wikimedia-logo.svg.png",
-  },
+  },  
   {
     id: 4,
     name: "Agência Criativa Hub",
@@ -155,9 +155,9 @@ const mockCompanies: Company[] = [
   },
   {
     id: 6,
-    name: "Grupo Visionário",
+    name: "Notion Workspace",
     type: "company",
-    email: "comercial@grupovisionario.com",
+    email: "comercial@notionworkspace.com.br",
     phone: "+55 51 93708-2946",
     document: "56.789.012/0001-44",
     location: "Porto Alegre, RS",
@@ -172,6 +172,7 @@ const mockCompanies: Company[] = [
     dau: 0,
     bitrix_id: "BT-10582",
     asaas_id: "AS-223047",
+    avatar: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",
   },
   {
     id: 7,
@@ -192,9 +193,9 @@ const mockCompanies: Company[] = [
   },
   {
     id: 8,
-    name: "Plataforma Logística BR",
+    name: "Spotify Brasil",
     type: "company",
-    email: "ops@logisticabr.com.br",
+    email: "ops@spotify.com.br",
     phone: "+55 62 98830-4712",
     document: "78.901.234/0001-66",
     location: "Goiânia, GO",
@@ -209,7 +210,7 @@ const mockCompanies: Company[] = [
     dau: 1820,
     bitrix_id: "BT-74039",
     asaas_id: "AS-389120",
-    avatar: "https://logo.clearbit.com/aurora.com.br",
+    avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/200px-Spotify_logo_without_text.svg.png",
   },
   {
     id: 9,
@@ -230,9 +231,9 @@ const mockCompanies: Company[] = [
   },
   {
     id: 10,
-    name: "Consultoria Avante",
+    name: "Meta Business",
     type: "company",
-    email: "rh@avante.com.br",
+    email: "rh@metabusiness.com.br",
     phone: "+55 81 97362-0854",
     document: "90.123.456/0001-88",
     location: "Recife, PE",
@@ -247,7 +248,7 @@ const mockCompanies: Company[] = [
     dau: 3190,
     bitrix_id: "BT-92013",
     asaas_id: "AS-667452",
-    avatar: "https://logo.clearbit.com/nubank.com.br",
+    avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/200px-Meta_Platforms_Inc._logo.svg.png",
   },
   {
     id: 11,
@@ -285,9 +286,9 @@ const mockCompanies: Company[] = [
   },
   {
     id: 13,
-    name: "Empreendimentos Nexus",
+    name: "Google Brasil",
     type: "company",
-    email: "negocios@nexus.adm.br",
+    email: "negocios@google.com.br",
     phone: "+55 61 99480-6127",
     document: "22.333.444/0001-55",
     location: "Brasília, DF",
@@ -302,6 +303,7 @@ const mockCompanies: Company[] = [
     dau: 268,
     bitrix_id: "BT-40871",
     asaas_id: "AS-781936",
+    avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/200px-Google_2015_logo.svg.png",
   },
   {
     id: 14,
@@ -323,9 +325,9 @@ const mockCompanies: Company[] = [
   },
   {
     id: 15,
-    name: "CloudBase Tecnologia",
+    name: "Slack do Brasil",
     type: "company",
-    email: "ti@cloudbase.tech",
+    email: "ti@slack.com.br",
     phone: "+55 19 98527-3041",
     document: "44.555.666/0001-77",
     location: "Campinas, SP",
@@ -340,6 +342,7 @@ const mockCompanies: Company[] = [
     dau: 5430,
     bitrix_id: "BT-61248",
     asaas_id: "AS-904567",
+    avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Slack_icon_2019.svg/200px-Slack_icon_2019.svg.png",
   },
   {
     id: 16,
@@ -377,6 +380,40 @@ const mockCompanies: Company[] = [
     dau: 87,
   },
 ]
+
+const companyInitials = (name: string) =>
+  name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase()
+
+const avatarColors = [
+  "from-blue-500 to-blue-700",
+  "from-violet-500 to-purple-700",
+  "from-emerald-500 to-teal-700",
+  "from-orange-500 to-rose-600",
+  "from-cyan-500 to-blue-600",
+  "from-pink-500 to-rose-700",
+]
+const avatarColor = (id: number) => avatarColors[id % avatarColors.length]
+
+function CompanyAvatar({ company }: { company: Company }) {
+  const [err, setErr] = React.useState(false)
+  if (company.avatar && !err) {
+    return (
+      <div className="w-9 h-9 rounded-xl flex-shrink-0 shadow-sm overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+        <img
+          src={company.avatar}
+          alt={company.name}
+          className="w-full h-full object-contain p-1"
+          onError={() => setErr(true)}
+        />
+      </div>
+    )
+  }
+  return (
+    <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${avatarColor(company.id)} flex items-center justify-center flex-shrink-0 shadow-sm`}>
+      <span className="text-xs font-bold text-white">{companyInitials(company.name)}</span>
+    </div>
+  )
+}
 
 export default function EmpresasPage() {
   const { sidebarWidth, sidebarSettings, previewTheme } = useSidebar()
@@ -791,20 +828,7 @@ export default function EmpresasPage() {
     )
   }
 
-  const getCompanyInitials = (name: string) => {
-    return name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase()
-  }
-
-  const avatarColors = [
-    "from-blue-500 to-blue-700",
-    "from-violet-500 to-purple-700",
-    "from-emerald-500 to-teal-700",
-    "from-orange-500 to-rose-600",
-    "from-cyan-500 to-blue-600",
-    "from-pink-500 to-rose-700",
-  ]
-
-  const getAvatarColor = (id: number) => avatarColors[id % avatarColors.length]
+  // avatar helpers are module-scope (companyInitials / avatarColor / CompanyAvatar)
 
   return (
     <div className="space-y-5">
@@ -970,29 +994,7 @@ export default function EmpresasPage() {
                   {/* Company */}
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-3">
-                      {company.avatar ? (
-                        <div className="w-9 h-9 rounded-xl flex-shrink-0 shadow-sm overflow-hidden border border-slate-200 bg-white">
-                          <img
-                            src={company.avatar}
-                            alt={company.name}
-                            className="w-full h-full object-contain p-0.5"
-                            onError={(e) => {
-                              const el = e.currentTarget
-                              el.style.display = "none"
-                              el.parentElement!.classList.remove("bg-white", "border-slate-200")
-                              el.parentElement!.classList.add("bg-gradient-to-br", ...getAvatarColor(company.id).split(" "))
-                              const span = document.createElement("span")
-                              span.className = "text-xs font-bold text-white flex items-center justify-center w-full h-full"
-                              span.textContent = getCompanyInitials(company.name)
-                              el.parentElement!.appendChild(span)
-                            }}
-                          />
-                        </div>
-                      ) : (
-                        <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${getAvatarColor(company.id)} flex items-center justify-center flex-shrink-0 shadow-sm`}>
-                          <span className="text-xs font-bold text-white">{getCompanyInitials(company.name)}</span>
-                        </div>
-                      )}
+                      <CompanyAvatar company={company} />
                       <div>
                         <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">{company.name}</p>
                         <p className="text-xs text-slate-400 dark:text-slate-500">{company.location}</p>
