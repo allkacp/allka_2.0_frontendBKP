@@ -505,6 +505,23 @@
   }
 }
 /* ============================================================
+   SHEET / SLIDE PANELS — timing e easing globais
+   tw-animate-css gera as animações via CSS variables de animação.
+   Override aqui é mais confiável que classes Tailwind arbitrárias
+   aninhadas em variantes data-[state] (Tailwind v4 pode ignorar).
+   ============================================================ */
+[data-slot="sheet-content"][data-state="open"] {
+  /* entrada: spring suave — 550ms, começa lento, pousa suave */
+  animation-duration: 550ms !important;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1) !important;
+}
+[data-slot="sheet-content"][data-state="closed"] {
+  /* saída: aceleração para a direita — 420ms, limpa e intencional */
+  animation-duration: 420ms !important;
+  animation-timing-function: cubic-bezier(0.4, 0, 1, 1) !important;
+}
+
+/* ============================================================
    SIDEBAR — sempre interativo, nunca bloqueado por modais
    Radix UI (Sheet/Dialog) herda pointer-events:none no body
    quando um modal abre. Este override garante que o sidebar
