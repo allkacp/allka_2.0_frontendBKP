@@ -39,16 +39,39 @@ function SheetContent({
   children,
   side = "right",
   hideOverlay = false,
+  onInteractOutside,
+  onPointerDownOutside,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: "top" | "right" | "bottom" | "left"
   hideOverlay?: boolean
 }) {
+  const handleInteractOutside = (e: CustomEvent) => {
+    // Never close when clicking inside the sidebar
+    const target = e.target as Element | null
+    if (target?.closest("[data-sidebar-root]")) {
+      e.preventDefault()
+      return
+    }
+    onInteractOutside?.(e as any)
+  }
+
+  const handlePointerDownOutside = (e: CustomEvent) => {
+    const target = e.target as Element | null
+    if (target?.closest("[data-sidebar-root]")) {
+      e.preventDefault()
+      return
+    }
+    onPointerDownOutside?.(e as any)
+  }
+
   return (
     <SheetPortal>
       {!hideOverlay && <SheetOverlay />}
       <SheetPrimitive.Content
         data-slot="sheet-content"
+        onInteractOutside={handleInteractOutside}
+        onPointerDownOutside={handlePointerDownOutside}
         className={cn(
           "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
           side === "right" &&
