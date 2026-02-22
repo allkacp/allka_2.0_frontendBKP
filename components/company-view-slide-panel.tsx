@@ -925,7 +925,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {/* Razão Social */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Razão Social</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Razão Social</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("legal_name") as string} onChange={(e) => handleDadosFieldChange("legal_name", e.target.value)} className="border-slate-300" placeholder="Digite a razão social" />
                         ) : (
@@ -935,7 +935,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Nome Fantasia */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Nome Fantasia</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Nome Fantasia</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("trade_name") as string || ""} onChange={(e) => handleDadosFieldChange("trade_name", e.target.value)} className="border-slate-300" placeholder="Digite o nome fantasia" />
                         ) : (
@@ -945,7 +945,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* CNPJ */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">CNPJ</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">CNPJ</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("document") as string || ""} onChange={(e) => handleDadosFieldChange("document", e.target.value)} className="border-slate-300 font-mono" placeholder="00.000.000/0000-00" disabled />
                         ) : (
@@ -955,7 +955,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Inscrição Estadual */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Inscrição Estadual</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Inscrição Estadual</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("ie") as string || ""} onChange={(e) => handleDadosFieldChange("ie", e.target.value)} className="border-slate-300" placeholder="IE" />
                         ) : (
@@ -965,7 +965,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Status da Empresa */}
                       <div className="md:col-span-2">
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Status da Empresa</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Status da Empresa</label>
                         {isDadosEditMode ? (
                           <CompanyStatusSelector
                             value={getDadosDisplayValue("status") as CompanyStatus || "active"}
@@ -973,9 +973,16 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                             showLabel={false}
                           />
                         ) : (
-                          <Badge variant={getStatusColor(company.status)}>
+                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                            company.status === "active" ? "bg-emerald-500 text-white"
+                            : company.status === "inactive" ? "bg-slate-200 text-slate-600"
+                            : "bg-amber-100 text-amber-700"
+                          }`}>
+                            {company.status === "active" && <CheckCircle className="h-3.5 w-3.5" />}
+                            {company.status === "inactive" && <PauseCircle className="h-3.5 w-3.5" />}
+                            {company.status === "pending" && <Clock className="h-3.5 w-3.5" />}
                             {getStatusLabel(company.status)}
-                          </Badge>
+                          </span>
                         )}
                       </div>
                     </div>
@@ -994,7 +1001,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {/* Email Principal */}
                       <div className="md:col-span-2">
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Email Principal</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Email Principal</label>
                         {isDadosEditMode ? (
                           <Input type="email" value={getDadosDisplayValue("email") as string} onChange={(e) => handleDadosFieldChange("email", e.target.value)} className="border-slate-300" placeholder="email@example.com" />
                         ) : (
@@ -1004,7 +1011,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Telefone Principal */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Telefone Principal</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Telefone Principal</label>
                         {isDadosEditMode ? (
                           <Input type="tel" value={getDadosDisplayValue("phone") as string || ""} onChange={(e) => handleDadosFieldChange("phone", e.target.value)} className="border-slate-300" placeholder="(00) 0000-0000" />
                         ) : (
@@ -1014,7 +1021,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Telefone Secundário */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Telefone Secundário</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Telefone Secundário</label>
                         {isDadosEditMode ? (
                           <Input type="tel" value={getDadosDisplayValue("phone_secondary") as string || ""} onChange={(e) => handleDadosFieldChange("phone_secondary", e.target.value)} className="border-slate-300" placeholder="(00) 0000-0000" />
                         ) : (
@@ -1024,7 +1031,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* WhatsApp */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">WhatsApp</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">WhatsApp</label>
                         {isDadosEditMode ? (
                           <Input type="tel" value={getDadosDisplayValue("whatsapp") as string || ""} onChange={(e) => handleDadosFieldChange("whatsapp", e.target.value)} className="border-slate-300" placeholder="(00) 00000-0000" />
                         ) : (
@@ -1034,7 +1041,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Site */}
                       <div className="md:col-span-2">
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Site</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Site</label>
                         {isDadosEditMode ? (
                           <Input type="url" value={getDadosDisplayValue("website") as string || ""} onChange={(e) => handleDadosFieldChange("website", e.target.value)} className="border-slate-300" placeholder="https://exemplo.com.br" />
                         ) : (
@@ -1110,7 +1117,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {/* CEP */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">CEP</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">CEP</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("zip_code") as string || ""} onChange={(e) => handleDadosFieldChange("zip_code", e.target.value)} className="border-slate-300 font-mono" placeholder="00000-000" />
                         ) : (
@@ -1120,7 +1127,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Rua */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Rua</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Rua</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("street") as string || ""} onChange={(e) => handleDadosFieldChange("street", e.target.value)} className="border-slate-300" placeholder="Nome da rua" />
                         ) : (
@@ -1130,7 +1137,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Número */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Número</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Número</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("number") as string || ""} onChange={(e) => handleDadosFieldChange("number", e.target.value)} className="border-slate-300" placeholder="123" />
                         ) : (
@@ -1140,7 +1147,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Complemento */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Complemento</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Complemento</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("complement") as string || ""} onChange={(e) => handleDadosFieldChange("complement", e.target.value)} className="border-slate-300" placeholder="Apto 123, Bloco A" />
                         ) : (
@@ -1150,7 +1157,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Bairro */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Bairro</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Bairro</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("neighborhood") as string || ""} onChange={(e) => handleDadosFieldChange("neighborhood", e.target.value)} className="border-slate-300" placeholder="Nome do bairro" />
                         ) : (
@@ -1160,7 +1167,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Cidade */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Cidade</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Cidade</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("city") as string || ""} onChange={(e) => handleDadosFieldChange("city", e.target.value)} className="border-slate-300" placeholder="São Paulo" />
                         ) : (
@@ -1170,7 +1177,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Estado */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Estado</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Estado</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("state") as string || ""} onChange={(e) => handleDadosFieldChange("state", e.target.value.toUpperCase())} className="border-slate-300" placeholder="SP" maxLength={2} />
                         ) : (
@@ -1180,7 +1187,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* País */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">País</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">País</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("country") as string || "Brasil"} onChange={(e) => handleDadosFieldChange("country", e.target.value)} className="border-slate-300" placeholder="Brasil" />
                         ) : (
@@ -1203,7 +1210,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {/* Chave PIX */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Chave PIX</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Chave PIX</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("pix_key") as string || ""} onChange={(e) => handleDadosFieldChange("pix_key", e.target.value)} className="border-slate-300" placeholder="Chave PIX" />
                         ) : (
@@ -1213,7 +1220,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Tipo de Chave PIX */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Tipo de Chave PIX</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Tipo de Chave PIX</label>
                         {isDadosEditMode ? (
                           <select value={getDadosDisplayValue("pix_type") as string || ""} onChange={(e) => handleDadosFieldChange("pix_type", e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm font-medium">
                             <option value="">Selecione</option>
@@ -1230,7 +1237,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Banco */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Banco</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Banco</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("bank_name") as string || ""} onChange={(e) => handleDadosFieldChange("bank_name", e.target.value)} className="border-slate-300" placeholder="Nome do banco" />
                         ) : (
@@ -1240,7 +1247,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Agência */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Agência</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Agência</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("bank_agency") as string || ""} onChange={(e) => handleDadosFieldChange("bank_agency", e.target.value)} className="border-slate-300" placeholder="0000" />
                         ) : (
@@ -1250,7 +1257,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Conta */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Conta</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Conta</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("bank_account") as string || ""} onChange={(e) => handleDadosFieldChange("bank_account", e.target.value)} className="border-slate-300" placeholder="000000-0" />
                         ) : (
@@ -1260,7 +1267,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Tipo de Conta */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Tipo de Conta</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Tipo de Conta</label>
                         {isDadosEditMode ? (
                           <select value={getDadosDisplayValue("bank_account_type") as string || ""} onChange={(e) => handleDadosFieldChange("bank_account_type", e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm font-medium">
                             <option value="">Selecione</option>
@@ -1287,7 +1294,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                     <div className="space-y-4">
                       {/* Observações Administrativas */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Observações Administrativas</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Observações Administrativas</label>
                         {isDadosEditMode ? (
                           <textarea value={getDadosDisplayValue("admin_notes") as string || ""} onChange={(e) => handleDadosFieldChange("admin_notes", e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm font-medium min-h-20" placeholder="Notas visíveis para admin" />
                         ) : (
@@ -1297,7 +1304,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Notas Internas */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Notas Internas (Visíveis apenas para admin)</label>
+                        <label className="text-sm font-semibold text-slate-700 block mb-1.5">Notas Internas (Visíveis apenas para admin)</label>
                         {isDadosEditMode ? (
                           <textarea value={getDadosDisplayValue("internal_notes") as string || ""} onChange={(e) => handleDadosFieldChange("internal_notes", e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm font-medium min-h-20" placeholder="Notas internas do sistema" />
                         ) : (
@@ -1747,7 +1754,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                     </div>
 
                     <div>
-                      <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Últimas Movimentações</label>
+                      <label className="text-sm font-semibold text-slate-700 block mb-1.5">Últimas Movimentações</label>
                       <div className="space-y-2 bg-slate-50 p-3 rounded border border-slate-200 max-h-48 overflow-y-auto">
                         {companyWalletStatements.slice(0, 5).map(stmt => (
                           <div key={stmt.id} className="flex justify-between items-center text-xs border-b border-slate-200 pb-2 last:border-0">

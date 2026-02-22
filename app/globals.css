@@ -539,6 +539,21 @@
 }
 
 /* ============================================================
+   FORM LABELS — global standard
+   Matches the create/edit panel design: text-sm, semibold,
+   slate-700, no all-caps, spacing below.
+   Use class="field-label" or replicate inline with:
+   text-sm font-semibold text-slate-700 block mb-1.5
+   ============================================================ */
+.field-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(51 65 85);
+  display: block;
+  margin-bottom: 0.375rem;
+}
+
+/* ============================================================
    SCROLLBAR — moderna, fina e sutil em toda a aplicação
    ============================================================ */
 
