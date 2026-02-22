@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { Building2, Users, Search, Plus, Eye, Trash2, ChevronLeft, ChevronRight, Filter, X, Copy, Activity, FolderOpen, Mail, Hash, TrendingUp, TrendingDown, Info, Pencil, GripVertical } from "lucide-react"
+import { Building2, Users, Search, Plus, Eye, Trash2, ChevronLeft, ChevronRight, Filter, X, Copy, Activity, FolderOpen, Mail, Hash, TrendingUp, TrendingDown, Info, Pencil, GripVertical, CheckCircle, PauseCircle, Clock } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { ItemsPerPageSelect } from "@/components/items-per-page-select"
@@ -1049,15 +1049,15 @@ export default function EmpresasPage() {
                     <span
                       className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
                         company.status === "active"
-                          ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
+                          ? "bg-emerald-500 text-white"
                           : company.status === "inactive"
-                          ? "bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-300"
-                          : "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300"
+                          ? "bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                          : "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
                       }`}
                     >
-                      <span className={`w-1.5 h-1.5 rounded-full ${
-                        company.status === "active" ? "bg-emerald-500" : company.status === "inactive" ? "bg-red-500" : "bg-amber-500"
-                      }`} />
+                      {company.status === "active" && <CheckCircle className="h-3.5 w-3.5" />}
+                      {company.status === "inactive" && <PauseCircle className="h-3.5 w-3.5" />}
+                      {company.status === "pending" && <Clock className="h-3.5 w-3.5" />}
                       {company.status === "active" ? "Ativo" : company.status === "inactive" ? "Inativo" : "Pendente"}
                     </span>
                   </td>
