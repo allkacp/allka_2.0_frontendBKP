@@ -12,8 +12,7 @@ import { CompanyCreateSlidePanel } from "@/components/company-create-slide-panel
 import { CompanyEditSlidePanel } from "@/components/company-edit-slide-panel"
 import { CompanyViewSlidePanel } from "@/components/company-view-slide-panel"
 import { ConfirmationDialog } from "@/components/confirmation-dialog"
-import { useSidebar } from "@/lib/contexts/sidebar-context"
-import { useSidebar as useSidebarTheme } from "@/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 
 const gradientMap: Record<string, string> = {
   "bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900": "linear-gradient(to bottom right, #1e3a8a, #1e40af, #164e63)",
@@ -374,8 +373,7 @@ const mockCompanies: Company[] = [
 ]
 
 export default function EmpresasPage() {
-  const { sidebarWidth } = useSidebar()
-  const { sidebarSettings, previewTheme } = useSidebarTheme()
+  const { sidebarWidth, sidebarSettings, previewTheme } = useSidebar()
   const appliedTheme = previewTheme || sidebarSettings
   const themeBg = appliedTheme.backgroundColor
   const getHeaderStyle = (): React.CSSProperties => {

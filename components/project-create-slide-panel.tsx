@@ -36,7 +36,7 @@ import {
   UserIcon,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useSidebar } from "@/lib/contexts/sidebar-context" // Fixed import path to use correct sidebar context with sidebarWidth
+import { useSidebar } from "@/contexts/sidebar-context"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useNavigate } from "react-router-dom"
@@ -87,7 +87,7 @@ interface User {
 
 export function ProjectCreateSlidePanel({ open, onClose, onSubmit, initialData }: ProjectCreateSlidePanelProps) {
   const { toast } = useToast()
-  const { sidebarCollapsed, sidebarWidth } = useSidebar() // Added sidebarWidth
+  const { sidebarWidth } = useSidebar()
   const navigate = useNavigate()
   const { products } = useProducts()
   const [loading, setLoading] = useState(false)
@@ -710,8 +710,6 @@ export function ProjectCreateSlidePanel({ open, onClose, onSubmit, initialData }
       setEditingCard(null)
     }
   }, [open])
-
-  const leftPosition = sidebarCollapsed ? "left-16" : "left-64"
 
   const calculateCustomTotal = () => {
     let total = productToCustomize ? productToCustomize.finalPrice : 0

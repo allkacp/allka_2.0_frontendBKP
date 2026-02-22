@@ -23,7 +23,7 @@ import { UserViewHeader } from "@/components/user-view-header"
 import { UserPartnershipCard } from "@/components/user-partnership-card"
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from "recharts"
 import { useState, useEffect } from "react"
-import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 import { User as UserType } from "@/types/user"
 import { useToast } from "@/hooks/use-toast"
 

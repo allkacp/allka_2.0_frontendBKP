@@ -17,7 +17,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
 import { ConfirmationDialog } from "@/components/confirmation-dialog"
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { useState } from "react"
-import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 
 interface UserListItem {
   id: number

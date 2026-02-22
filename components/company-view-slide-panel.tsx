@@ -11,7 +11,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 import { Input } from "@/components/ui/input"
 import { ModalBrandHeader } from "@/components/ui/modal-brand-header"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from "recharts"
-import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 import { useToast } from "@/hooks/use-toast"
 import { CompanyUsersTab } from "@/components/company-users-tab"
 import { TermsManagementTab } from "@/components/terms-management-tab"
@@ -76,7 +76,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
   // Guard: Return null if company is not provided
   if (!company) return null
 
-  const { sidebarCollapsed } = useSidebar()
+  const { sidebarWidth } = useSidebar()
   const { toast } = useToast()
   const [activeTab, setActiveTab] = useState("visao-geral")
   const [showMigrateModal, setShowMigrateModal] = useState(false)
@@ -544,7 +544,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
         <SheetContent
           side="right"
           hideOverlay={true}
-          className={`left-64 ${sidebarCollapsed ? "left-0" : "left-64"} w-[calc(100vw-16rem)] sm:max-w-[calc(100vw-16rem)] p-0 flex flex-col gap-0`}
+          className="p-0 flex flex-col gap-0 !w-auto !max-w-none"
+          style={{ left: `${sidebarWidth}px`, width: `calc(100vw - ${sidebarWidth}px)`, maxWidth: `calc(100vw - ${sidebarWidth}px)` }}
         >
           <ModalBrandHeader
             title={company.name}

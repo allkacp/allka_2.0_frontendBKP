@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 import { ModalBrandHeader } from "@/components/ui/modal-brand-header"
 import { useToast } from "@/hooks/use-toast"
 

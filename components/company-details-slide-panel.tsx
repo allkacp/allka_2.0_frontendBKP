@@ -51,7 +51,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Switch } from "@/components/ui/switch"
 import { Card } from "@/components/ui/card" // Added Card component
 import { Progress } from "@/components/ui/progress" // Added Progress component
-import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 
 type CompanyType = "company" | "agency" | "nomad"
 type CompanyStatus = "active" | "inactive" | "pending"

@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { X, Sparkles, Send, SkipForward, CheckCircle2 } from "lucide-react"
-import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 
 interface ProjectWizardSlidePanelProps {
   open: boolean

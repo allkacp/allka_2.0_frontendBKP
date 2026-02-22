@@ -42,7 +42,7 @@ import {
 import { toast } from "@/hooks/use-toast"
 import { usePricing, type PricingComponent, type CommissionApplyOn, type ProductCategory } from "@/hooks/use-pricing"
 import { useSpecialties } from "@/lib/contexts/specialty-context"
-import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 import PageHeader from "@/components/page-header"
 
 const PrecificacaoPage = () => {

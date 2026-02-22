@@ -504,3 +504,19 @@
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 }
+/* ============================================================
+   SIDEBAR — sempre interativo, nunca bloqueado por modais
+   Radix UI (Sheet/Dialog) herda pointer-events:none no body
+   quando um modal abre. Este override garante que o sidebar
+   nunca perca interatividade independente do que estiver aberto.
+   ============================================================ */
+[data-sidebar-root],
+[data-sidebar-root] * {
+  pointer-events: auto !important;
+}
+
+/* Garante empilhamento acima de todos os overlays (z-50 = 50) */
+[data-sidebar-root] {
+  position: relative;
+  z-index: 200 !important;
+}

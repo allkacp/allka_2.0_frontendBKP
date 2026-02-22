@@ -60,7 +60,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 import { ModalBrandHeader } from "@/components/ui/modal-brand-header"
 import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"

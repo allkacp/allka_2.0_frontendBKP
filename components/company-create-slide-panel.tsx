@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast"
 import { Building2, Mail, Phone, MapPin, CreditCard, User, AlertCircle, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 import { ModalBrandHeader } from "@/components/ui/modal-brand-header"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
@@ -85,7 +85,7 @@ interface FormErrors {
 
 export function CompanyCreateSlidePanel({ open, onOpenChange, onCreate }: CompanyCreateSlidePanelProps) {
   const { toast } = useToast()
-  const { sidebarCollapsed } = useSidebar()
+  const { sidebarWidth } = useSidebar()
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<FormErrors>({})
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
@@ -254,7 +254,7 @@ export function CompanyCreateSlidePanel({ open, onOpenChange, onCreate }: Compan
     }
   }
 
-  const panelWidth = sidebarCollapsed ? "calc(100vw - 4rem)" : "calc(100vw - 16rem)"
+  const panelWidth = `calc(100vw - ${sidebarWidth}px)`
 
   if (!mounted) return null
 
@@ -263,10 +263,10 @@ export function CompanyCreateSlidePanel({ open, onOpenChange, onCreate }: Compan
       <div
         className={cn(
           "fixed top-0 right-0 h-full bg-white flex flex-col border-l border-gray-200 z-50 shadow-2xl",
-          "transform transition-transform duration-500 ease-out",
+          "transition-all duration-300 ease-out",
           open ? "translate-x-0" : "translate-x-full",
         )}
-        style={{ width: panelWidth }}
+        style={{ left: `${sidebarWidth}px`, width: panelWidth }}
       >
         {/* Header with Brand Theme */}
         <ModalBrandHeader

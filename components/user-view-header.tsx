@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Download, Save, XCircle, Eye, EyeOff, Star, Upload, Camera } from "lucide-react"
-import { useSidebar } from "@/lib/contexts/sidebar-context"
+import { useSidebar } from "@/contexts/sidebar-context"
 import { ModalBrandHeader } from "@/components/ui/modal-brand-header"
 
 interface UserViewHeaderProps {

@@ -46,6 +46,7 @@ interface SidebarContextType {
   agencyProfile: AgencyProfile
   userProfile: UserProfile
   sidebarCollapsed: boolean
+  sidebarWidth: number
   previewTheme: SidebarSettings | null
   previewEnabled: boolean
   updateSidebarSettings: (settings: Partial<SidebarSettings>) => void
@@ -197,6 +198,8 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
     setUserProfile((prev) => ({ ...prev, ...profile }))
   }
 
+  const sidebarWidth = sidebarCollapsed ? 64 : 256
+
   return (
     <SidebarContext.Provider
       value={{
@@ -204,6 +207,7 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
         agencyProfile,
         userProfile,
         sidebarCollapsed,
+        sidebarWidth,
         previewTheme,
         previewEnabled,
         updateSidebarSettings,
