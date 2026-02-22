@@ -794,15 +794,16 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </div>
 
                 {/* Seção de Estatísticas - Mesmo padrão de admin/usuarios */}
-                <Accordion type="single" collapsible defaultValue="estatisticas" className="space-y-0">
-                  <AccordionItem value="estatisticas" className="border border-0">
-                    <AccordionTrigger className="bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/30 dark:hover:bg-slate-900/50 rounded-lg px-3 py-2 transition-colors text-sm">
+                <Accordion type="single" collapsible defaultValue="estatisticas" className="space-y-3">
+                  <AccordionItem value="estatisticas" className="border border-slate-200 rounded-lg overflow-hidden">
+                    <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
                       <div className="flex items-center gap-2">
-                        <BarChart3 className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                        <span className="font-semibold text-slate-900 dark:text-slate-300">Estatísticas</span>
+                        <BarChart3 className="h-4 w-4 text-slate-600" />
+                        <span className="font-semibold text-slate-900">Estatísticas</span>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="pt-1.5 pb-0">
+                    <AccordionContent className="border-t border-slate-100">
+                      <div className="px-3 py-3">
                       <div className="grid grid-cols-3 gap-2">
                         <Card className="p-2 bg-gradient-to-br from-emerald-50 to-emerald-100/50 dark:from-emerald-950/20 dark:to-emerald-900/10 border-emerald-200/50 dark:border-emerald-800/30 shadow-none">
                           <div className="flex items-center gap-1.5 mb-0.5">
@@ -833,6 +834,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                             {company.mau > 0 ? Math.round(company.mau / 3) : 0}
                           </p>
                         </Card>
+                      </div>
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -888,7 +890,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </div>
 
                 {/* Informações Principais - Accordion */}
-                <Accordion type="multiple" defaultValue={["info-principais"]} className="space-y-3">
+                <Accordion type="multiple" defaultValue={[]} className="space-y-3">
                   <AccordionItem value="info-principais" className="border border-slate-200 rounded-lg overflow-hidden">
                     <AccordionTrigger className="px-3 py-2 bg-[#eef2f7] hover:bg-[#e2e8f0] [&[data-state=open]]:bg-[#e2e8f0] text-xs">
                       <div className="flex items-center gap-2">
