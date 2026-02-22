@@ -548,7 +548,6 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
           style={{ left: `${sidebarWidth}px`, width: `calc(100vw - ${sidebarWidth}px)`, maxWidth: `calc(100vw - ${sidebarWidth}px)` }}
         >
           <ModalBrandHeader
-            title={company.name}
             right={
               <div className="flex items-center gap-3 flex-shrink-0">
                 <Badge variant="default" className="text-xs">
