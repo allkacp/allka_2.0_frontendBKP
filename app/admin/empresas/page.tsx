@@ -870,18 +870,15 @@ export default function EmpresasPage() {
         {/* Card Top Bar */}
         <div className="flex items-center gap-3 px-5 py-3.5 border-b border-slate-200/70 dark:border-slate-700/60 bg-slate-50/60 dark:bg-slate-900/30">
           {/* Search */}
-          <div className="w-72 relative flex-shrink-0">
+          <div className="flex-1 relative min-w-0">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
               placeholder="Nome, e-mail, CNPJ, telefone..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 h-9 text-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus-visible:ring-blue-500"
+              className="pl-9 h-9 text-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus-visible:ring-blue-500 w-full"
             />
           </div>
-
-          {/* Spacer */}
-          <div className="flex-1" />
 
           {/* Items per page + result count */}
           <div className="flex items-center gap-2 flex-shrink-0">
