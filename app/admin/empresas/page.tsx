@@ -54,6 +54,7 @@ type Company = {
   dau: number
   bitrix_id?: string
   asaas_id?: string
+  avatar?: string
 }
 
 const mockCompanies: Company[] = [
@@ -76,6 +77,7 @@ const mockCompanies: Company[] = [
     dau: 310,
     bitrix_id: "BT-82741",
     asaas_id: "AS-114903",
+    avatar: "https://logo.clearbit.com/coca-cola.com",
   },
   {
     id: 2,
@@ -93,6 +95,7 @@ const mockCompanies: Company[] = [
     created_at: "2023-02-20",
     mau: 290,
     dau: 74,
+    avatar: "https://logo.clearbit.com/starbucks.com",
   },
   {
     id: 3,
@@ -113,6 +116,7 @@ const mockCompanies: Company[] = [
     dau: 940,
     bitrix_id: "BT-33019",
     asaas_id: "AS-556781",
+    avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Wikimedia-logo.svg/200px-Wikimedia-logo.svg.png",
   },
   {
     id: 4,
@@ -205,6 +209,7 @@ const mockCompanies: Company[] = [
     dau: 1820,
     bitrix_id: "BT-74039",
     asaas_id: "AS-389120",
+    avatar: "https://logo.clearbit.com/aurora.com.br",
   },
   {
     id: 9,
@@ -242,6 +247,7 @@ const mockCompanies: Company[] = [
     dau: 3190,
     bitrix_id: "BT-92013",
     asaas_id: "AS-667452",
+    avatar: "https://logo.clearbit.com/nubank.com.br",
   },
   {
     id: 11,
@@ -964,9 +970,29 @@ export default function EmpresasPage() {
                   {/* Company */}
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${getAvatarColor(company.id)} flex items-center justify-center flex-shrink-0 shadow-sm`}>
-                        <span className="text-xs font-bold text-white">{getCompanyInitials(company.name)}</span>
-                      </div>
+                      {company.avatar ? (
+                        <div className="w-9 h-9 rounded-xl flex-shrink-0 shadow-sm overflow-hidden border border-slate-200 bg-white">
+                          <img
+                            src={company.avatar}
+                            alt={company.name}
+                            className="w-full h-full object-contain p-0.5"
+                            onError={(e) => {
+                              const el = e.currentTarget
+                              el.style.display = "none"
+                              el.parentElement!.classList.remove("bg-white", "border-slate-200")
+                              el.parentElement!.classList.add("bg-gradient-to-br", ...getAvatarColor(company.id).split(" "))
+                              const span = document.createElement("span")
+                              span.className = "text-xs font-bold text-white flex items-center justify-center w-full h-full"
+                              span.textContent = getCompanyInitials(company.name)
+                              el.parentElement!.appendChild(span)
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${getAvatarColor(company.id)} flex items-center justify-center flex-shrink-0 shadow-sm`}>
+                          <span className="text-xs font-bold text-white">{getCompanyInitials(company.name)}</span>
+                        </div>
+                      )}
                       <div>
                         <p className="font-semibold text-sm text-slate-900 dark:text-slate-100">{company.name}</p>
                         <p className="text-xs text-slate-400 dark:text-slate-500">{company.location}</p>
