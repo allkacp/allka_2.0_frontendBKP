@@ -507,49 +507,66 @@
 /* ============================================================
    SHEET / SLIDE PANELS — animações de entrada e saída
    ============================================================ */
+
+/*
+  Keyframes com slide + fade combinados.
+  Entrada: começa levemente fora da tela com opacity 0, termina posicionado.
+  Saída:   começa posicionado com opacity 1, sai suavemente.
+*/
 @keyframes sheet-slide-in-right {
   from { transform: translateX(100%); opacity: 0; }
+  60%  { opacity: 1; }
   to   { transform: translateX(0);    opacity: 1; }
 }
 @keyframes sheet-slide-out-right {
   from { transform: translateX(0);    opacity: 1; }
+  40%  { opacity: 1; }
   to   { transform: translateX(100%); opacity: 0; }
 }
 @keyframes sheet-slide-in-left {
   from { transform: translateX(-100%); opacity: 0; }
+  60%  { opacity: 1; }
   to   { transform: translateX(0);     opacity: 1; }
 }
 @keyframes sheet-slide-out-left {
   from { transform: translateX(0);     opacity: 1; }
+  40%  { opacity: 1; }
   to   { transform: translateX(-100%); opacity: 0; }
 }
 @keyframes sheet-slide-in-top {
   from { transform: translateY(-100%); opacity: 0; }
+  60%  { opacity: 1; }
   to   { transform: translateY(0);     opacity: 1; }
 }
 @keyframes sheet-slide-out-top {
   from { transform: translateY(0);     opacity: 1; }
+  40%  { opacity: 1; }
   to   { transform: translateY(-100%); opacity: 0; }
 }
 @keyframes sheet-slide-in-bottom {
   from { transform: translateY(100%); opacity: 0; }
+  60%  { opacity: 1; }
   to   { transform: translateY(0);    opacity: 1; }
 }
 @keyframes sheet-slide-out-bottom {
   from { transform: translateY(0);    opacity: 1; }
+  40%  { opacity: 1; }
   to   { transform: translateY(100%); opacity: 0; }
 }
 
-/* entrada: spring ease-out (380ms) — entrada rápida, pouso suave */
-/* saída:   ease-in-out (240ms)    — saída rápida e limpa        */
-[data-slot="sheet-content"][data-side="right"][data-state="open"]   { animation: sheet-slide-in-right  380ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-[data-slot="sheet-content"][data-side="right"][data-state="closed"] { animation: sheet-slide-out-right 240ms cubic-bezier(0.4, 0, 0.2, 1) both; }
-[data-slot="sheet-content"][data-side="left"][data-state="open"]    { animation: sheet-slide-in-left   380ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-[data-slot="sheet-content"][data-side="left"][data-state="closed"]  { animation: sheet-slide-out-left  240ms cubic-bezier(0.4, 0, 0.2, 1) both; }
-[data-slot="sheet-content"][data-side="top"][data-state="open"]     { animation: sheet-slide-in-top    380ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-[data-slot="sheet-content"][data-side="top"][data-state="closed"]   { animation: sheet-slide-out-top   240ms cubic-bezier(0.4, 0, 0.2, 1) both; }
-[data-slot="sheet-content"][data-side="bottom"][data-state="open"]  { animation: sheet-slide-in-bottom 380ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-[data-slot="sheet-content"][data-side="bottom"][data-state="closed"]{ animation: sheet-slide-out-bottom 240ms cubic-bezier(0.4, 0, 0.2, 1) both; }
+/*
+  entrada: 560ms — Material Design "Emphasized" easing
+           Começa lento, termina suave — ideal para painéis grandes
+  saída:   380ms — "Emphasized Accelerate" — sai intencionalmente rápido
+*/
+[data-slot="sheet-content"][data-side="right"][data-state="open"]    { animation: sheet-slide-in-right   560ms cubic-bezier(0.2, 0, 0, 1)      both; }
+[data-slot="sheet-content"][data-side="right"][data-state="closed"]  { animation: sheet-slide-out-right  380ms cubic-bezier(0.3, 0, 0.8, 0.15) both; }
+[data-slot="sheet-content"][data-side="left"][data-state="open"]     { animation: sheet-slide-in-left    560ms cubic-bezier(0.2, 0, 0, 1)      both; }
+[data-slot="sheet-content"][data-side="left"][data-state="closed"]   { animation: sheet-slide-out-left   380ms cubic-bezier(0.3, 0, 0.8, 0.15) both; }
+[data-slot="sheet-content"][data-side="top"][data-state="open"]      { animation: sheet-slide-in-top     560ms cubic-bezier(0.2, 0, 0, 1)      both; }
+[data-slot="sheet-content"][data-side="top"][data-state="closed"]    { animation: sheet-slide-out-top    380ms cubic-bezier(0.3, 0, 0.8, 0.15) both; }
+[data-slot="sheet-content"][data-side="bottom"][data-state="open"]   { animation: sheet-slide-in-bottom  560ms cubic-bezier(0.2, 0, 0, 1)      both; }
+[data-slot="sheet-content"][data-side="bottom"][data-state="closed"] { animation: sheet-slide-out-bottom 380ms cubic-bezier(0.3, 0, 0.8, 0.15) both; }
 
 /* ============================================================
    SIDEBAR — sempre interativo, nunca bloqueado por modais
