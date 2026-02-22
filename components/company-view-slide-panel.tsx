@@ -1,4 +1,4 @@
-
+﻿
 import { X, Building2, Users, Mail, Phone, MapPin, Calendar, CheckCircle, AlertCircle, TrendingUp, Wallet, ArrowUp, ArrowDown, Lock, Download, Star, Gift, Check, MessageSquare, Camera, Eye, Clock, Activity, Zap, UserIcon, Edit2, Save, Loader2, XCircle, Crown, Trash2, Plus, CreditCard, MoreVertical, FileText, Shield, BarChart3, Share2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -798,7 +798,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 </Accordion>
 
                 {/* Status de Usu��rios Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {/* Card: Últimos usuários que acessaram */}
                   <div className="bg-white rounded-lg p-4 border border-slate-200">
                     <h3 className="text-sm font-semibold text-slate-900 mb-4">Últimos usuários que acessaram</h3>
@@ -849,13 +849,13 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                 {/* Informações Principais - Accordion */}
                 <Accordion type="multiple" defaultValue={["info-principais"]} className="space-y-3">
                   <AccordionItem value="info-principais" className="border border-slate-200 rounded-lg overflow-hidden">
-                    <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                    <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                       <div className="flex items-center gap-2">
-                        <Building2 className="h-5 w-5 text-blue-600" />
+                        <Building2 className="h-4 w-4 text-blue-600" />
                         <span className="font-semibold text-slate-900">Informações Principais</span>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-4 py-4 border-t border-slate-100">
+                    <AccordionContent className="px-3 py-3 border-t border-slate-100">
                       <div className="space-y-3 text-sm">
                         <div className="flex justify-between items-center">
                           <span className="text-slate-600">ID:</span>
@@ -881,10 +881,10 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
             </TabsContent>
 
             {/* Dados Tab */}
-            <TabsContent value="dados" className="space-y-4 mt-0 px-6 py-6">
+            <TabsContent value="dados" className="space-y-4 mt-0 px-4 py-4">
               {/* Header with Edit Button */}
               <div className="flex items-center justify-between sticky top-0 bg-white z-10 pb-4 -mx-6 px-6">
-                <h3 className="text-lg font-semibold text-slate-900">Dados da Empresa</h3>
+                <h3 className="text-sm font-semibold text-slate-900">Dados da Empresa</h3>
                 <div className="flex items-center gap-2">
                   {!isDadosEditMode ? (
                     <Button onClick={handleDadosEditMode} size="sm" className="bg-blue-600 hover:bg-blue-700">
@@ -910,17 +910,17 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
               <Accordion type="multiple" defaultValue={["cadastrais"]} className="space-y-3">
                 {/* DADOS CADASTRAIS */}
                 <AccordionItem value="cadastrais" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <Building2 className="h-5 w-5 text-blue-600" />
+                      <Building2 className="h-4 w-4 text-blue-600" />
                       <span className="font-semibold text-slate-900">Dados Cadastrais</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {/* Razão Social */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Razão Social</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Razão Social</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("legal_name") as string} onChange={(e) => handleDadosFieldChange("legal_name", e.target.value)} className="border-slate-300" placeholder="Digite a razão social" />
                         ) : (
@@ -930,7 +930,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Nome Fantasia */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Nome Fantasia</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Nome Fantasia</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("trade_name") as string || ""} onChange={(e) => handleDadosFieldChange("trade_name", e.target.value)} className="border-slate-300" placeholder="Digite o nome fantasia" />
                         ) : (
@@ -940,17 +940,17 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* CNPJ */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">CNPJ</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">CNPJ</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("document") as string || ""} onChange={(e) => handleDadosFieldChange("document", e.target.value)} className="border-slate-300 font-mono" placeholder="00.000.000/0000-00" disabled />
                         ) : (
-                          <code className="bg-slate-100 px-3 py-2 rounded text-sm font-mono font-bold text-slate-900">{company.document || "—"}</code>
+                          <code className="bg-slate-100 px-2 py-1 rounded text-xs font-mono font-bold text-slate-900">{company.document || "—"}</code>
                         )}
                       </div>
 
                       {/* Inscrição Estadual */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Inscrição Estadual</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Inscrição Estadual</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("ie") as string || ""} onChange={(e) => handleDadosFieldChange("ie", e.target.value)} className="border-slate-300" placeholder="IE" />
                         ) : (
@@ -960,7 +960,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Status da Empresa */}
                       <div className="md:col-span-2">
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Status da Empresa</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Status da Empresa</label>
                         {isDadosEditMode ? (
                           <CompanyStatusSelector
                             value={getDadosDisplayValue("status") as CompanyStatus || "active"}
@@ -979,17 +979,17 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* CONTATO */}
                 <AccordionItem value="contato" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <Mail className="h-5 w-5 text-amber-600" />
+                      <Mail className="h-4 w-4 text-amber-600" />
                       <span className="font-semibold text-slate-900">Contato</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {/* Email Principal */}
                       <div className="md:col-span-2">
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Email Principal</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Email Principal</label>
                         {isDadosEditMode ? (
                           <Input type="email" value={getDadosDisplayValue("email") as string} onChange={(e) => handleDadosFieldChange("email", e.target.value)} className="border-slate-300" placeholder="email@example.com" />
                         ) : (
@@ -999,7 +999,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Telefone Principal */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Telefone Principal</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Telefone Principal</label>
                         {isDadosEditMode ? (
                           <Input type="tel" value={getDadosDisplayValue("phone") as string || ""} onChange={(e) => handleDadosFieldChange("phone", e.target.value)} className="border-slate-300" placeholder="(00) 0000-0000" />
                         ) : (
@@ -1009,7 +1009,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Telefone Secundário */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Telefone Secundário</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Telefone Secundário</label>
                         {isDadosEditMode ? (
                           <Input type="tel" value={getDadosDisplayValue("phone_secondary") as string || ""} onChange={(e) => handleDadosFieldChange("phone_secondary", e.target.value)} className="border-slate-300" placeholder="(00) 0000-0000" />
                         ) : (
@@ -1019,7 +1019,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* WhatsApp */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">WhatsApp</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">WhatsApp</label>
                         {isDadosEditMode ? (
                           <Input type="tel" value={getDadosDisplayValue("whatsapp") as string || ""} onChange={(e) => handleDadosFieldChange("whatsapp", e.target.value)} className="border-slate-300" placeholder="(00) 00000-0000" />
                         ) : (
@@ -1029,7 +1029,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Site */}
                       <div className="md:col-span-2">
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Site</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Site</label>
                         {isDadosEditMode ? (
                           <Input type="url" value={getDadosDisplayValue("website") as string || ""} onChange={(e) => handleDadosFieldChange("website", e.target.value)} className="border-slate-300" placeholder="https://exemplo.com.br" />
                         ) : (
@@ -1042,27 +1042,27 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* ENDEREÇO */}
                 <AccordionItem value="endereco" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <MapPin className="h-5 w-5 text-green-600" />
+                      <MapPin className="h-4 w-4 text-green-600" />
                       <span className="font-semibold text-slate-900">Endereço</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {/* CEP */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">CEP</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">CEP</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("zip_code") as string || ""} onChange={(e) => handleDadosFieldChange("zip_code", e.target.value)} className="border-slate-300 font-mono" placeholder="00000-000" />
                         ) : (
-                          <code className="bg-slate-100 px-3 py-2 rounded text-sm font-mono font-bold text-slate-900">{company.zip_code || "—"}</code>
+                          <code className="bg-slate-100 px-2 py-1 rounded text-xs font-mono font-bold text-slate-900">{company.zip_code || "—"}</code>
                         )}
                       </div>
 
                       {/* Rua */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Rua</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Rua</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("street") as string || ""} onChange={(e) => handleDadosFieldChange("street", e.target.value)} className="border-slate-300" placeholder="Nome da rua" />
                         ) : (
@@ -1072,7 +1072,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Número */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Número</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Número</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("number") as string || ""} onChange={(e) => handleDadosFieldChange("number", e.target.value)} className="border-slate-300" placeholder="123" />
                         ) : (
@@ -1082,7 +1082,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Complemento */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Complemento</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Complemento</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("complement") as string || ""} onChange={(e) => handleDadosFieldChange("complement", e.target.value)} className="border-slate-300" placeholder="Apto 123, Bloco A" />
                         ) : (
@@ -1092,7 +1092,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Bairro */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Bairro</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Bairro</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("neighborhood") as string || ""} onChange={(e) => handleDadosFieldChange("neighborhood", e.target.value)} className="border-slate-300" placeholder="Nome do bairro" />
                         ) : (
@@ -1102,7 +1102,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Cidade */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Cidade</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Cidade</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("city") as string || ""} onChange={(e) => handleDadosFieldChange("city", e.target.value)} className="border-slate-300" placeholder="São Paulo" />
                         ) : (
@@ -1112,7 +1112,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Estado */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Estado</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Estado</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("state") as string || ""} onChange={(e) => handleDadosFieldChange("state", e.target.value.toUpperCase())} className="border-slate-300" placeholder="SP" maxLength={2} />
                         ) : (
@@ -1122,7 +1122,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* País */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">País</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">País</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("country") as string || "Brasil"} onChange={(e) => handleDadosFieldChange("country", e.target.value)} className="border-slate-300" placeholder="Brasil" />
                         ) : (
@@ -1135,27 +1135,27 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* FINANCEIRO */}
                 <AccordionItem value="financeiro" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <Wallet className="h-5 w-5 text-red-600" />
+                      <Wallet className="h-4 w-4 text-red-600" />
                       <span className="font-semibold text-slate-900">Financeiro</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {/* Chave PIX */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Chave PIX</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Chave PIX</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("pix_key") as string || ""} onChange={(e) => handleDadosFieldChange("pix_key", e.target.value)} className="border-slate-300" placeholder="Chave PIX" />
                         ) : (
-                          <code className="bg-slate-100 px-3 py-2 rounded text-sm font-mono font-bold text-slate-900">{company.pix_key || "—"}</code>
+                          <code className="bg-slate-100 px-2 py-1 rounded text-xs font-mono font-bold text-slate-900">{company.pix_key || "—"}</code>
                         )}
                       </div>
 
                       {/* Tipo de Chave PIX */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Tipo de Chave PIX</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Tipo de Chave PIX</label>
                         {isDadosEditMode ? (
                           <select value={getDadosDisplayValue("pix_type") as string || ""} onChange={(e) => handleDadosFieldChange("pix_type", e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm font-medium">
                             <option value="">Selecione</option>
@@ -1172,7 +1172,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Banco */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Banco</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Banco</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("bank_name") as string || ""} onChange={(e) => handleDadosFieldChange("bank_name", e.target.value)} className="border-slate-300" placeholder="Nome do banco" />
                         ) : (
@@ -1182,7 +1182,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Agência */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Agência</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Agência</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("bank_agency") as string || ""} onChange={(e) => handleDadosFieldChange("bank_agency", e.target.value)} className="border-slate-300" placeholder="0000" />
                         ) : (
@@ -1192,7 +1192,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Conta */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Conta</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Conta</label>
                         {isDadosEditMode ? (
                           <Input value={getDadosDisplayValue("bank_account") as string || ""} onChange={(e) => handleDadosFieldChange("bank_account", e.target.value)} className="border-slate-300" placeholder="000000-0" />
                         ) : (
@@ -1202,7 +1202,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Tipo de Conta */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Tipo de Conta</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Tipo de Conta</label>
                         {isDadosEditMode ? (
                           <select value={getDadosDisplayValue("bank_account_type") as string || ""} onChange={(e) => handleDadosFieldChange("bank_account_type", e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm font-medium">
                             <option value="">Selecione</option>
@@ -1219,17 +1219,17 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* INFORMAÇÕES ADICIONAIS */}
                 <AccordionItem value="adicionais" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <AlertCircle className="h-5 w-5 text-purple-600" />
+                      <AlertCircle className="h-4 w-4 text-purple-600" />
                       <span className="font-semibold text-slate-900">Informações Adicionais</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100">
                     <div className="space-y-4">
                       {/* Observações Administrativas */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Observações Administrativas</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Observações Administrativas</label>
                         {isDadosEditMode ? (
                           <textarea value={getDadosDisplayValue("admin_notes") as string || ""} onChange={(e) => handleDadosFieldChange("admin_notes", e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm font-medium min-h-20" placeholder="Notas visíveis para admin" />
                         ) : (
@@ -1239,7 +1239,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                       {/* Notas Internas */}
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Notas Internas (Visíveis apenas para admin)</label>
+                        <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Notas Internas (Visíveis apenas para admin)</label>
                         {isDadosEditMode ? (
                           <textarea value={getDadosDisplayValue("internal_notes") as string || ""} onChange={(e) => handleDadosFieldChange("internal_notes", e.target.value)} className="w-full border border-slate-300 rounded px-3 py-2 text-sm font-medium min-h-20" placeholder="Notas internas do sistema" />
                         ) : (
@@ -1258,10 +1258,10 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
             </TabsContent>
 
             {/* Redes Sociais Tab */}
-            <TabsContent value="redes-sociais" className="flex-1 overflow-y-auto px-6 py-6">
+            <TabsContent value="redes-sociais" className="flex-1 overflow-y-auto px-4 py-4">
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-4">Redes Sociais da Empresa</h3>
+                  <h3 className="text-sm font-semibold text-slate-900 mb-4">Redes Sociais da Empresa</h3>
                   {isDadosEditMode ? (
                     <CompanySocialLinksManager
                       socialLinks={getDadosDisplayValue("social_links") as SocialLink[] || []}
@@ -1337,17 +1337,17 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
             </TabsContent>
 
             {/* Plano Tab */}
-            <TabsContent value="plano" className="flex-1 overflow-y-auto px-6 py-6">
+            <TabsContent value="plano" className="flex-1 overflow-y-auto px-4 py-4">
               <Accordion type="multiple" defaultValue={["admin", "credito", "account", "pagamento", "carteira", "nf"]} className="space-y-3">
                 {/* ACCORDION 1: AÇÕES ADMINISTRATIVAS */}
                 <AccordionItem value="admin" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <Shield className="h-5 w-5 text-amber-600" />
+                      <Shield className="h-4 w-4 text-amber-600" />
                       <span className="font-semibold text-slate-900">Ações Administrativas</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100">
                     <div className="flex flex-wrap items-center gap-2">
                       <Button
                         size="sm"
@@ -1387,13 +1387,13 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* ACCORDION 2: PLANO DE CRÉDITO */}
                 <AccordionItem value="credito" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <Crown className="h-5 w-5 text-blue-600" />
+                      <Crown className="h-4 w-4 text-blue-600" />
                       <span className="font-semibold text-slate-900">Plano de Crédito</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100">
                     <Card className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/30 border-blue-200 dark:border-blue-800">
                       <div className="flex items-start justify-between mb-3">
                         <div>
@@ -1436,13 +1436,13 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* ACCORDION 3: TIPO DE CONTA */}
                 <AccordionItem value="account" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <Building2 className="h-5 w-5 text-purple-600" />
+                      <Building2 className="h-4 w-4 text-purple-600" />
                       <span className="font-semibold text-slate-900">Tipo de Conta</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100">
                     <div className="grid grid-cols-2 gap-3">
                       {["Company Dependente", "Company Independente", "Agency", "Partner"].map((type) => {
                         const isSelected = company.type === "company" && company.account_type === "independent" 
@@ -1487,13 +1487,13 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* ACCORDION 3: MÉTODOS DE PAGAMENTO */}
                 <AccordionItem value="pagamento" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <Wallet className="h-5 w-5 text-emerald-600" />
+                      <Wallet className="h-4 w-4 text-emerald-600" />
                       <span className="font-semibold text-slate-900">Métodos de Pagamento</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100 space-y-4">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100 space-y-4">
                     {/* Payment Methods List */}
                     <div className="space-y-3">
                       {/* Pix */}
@@ -1597,7 +1597,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                           <p className="text-sm text-slate-600">Nenhum cartão cadastrado</p>
                         </div>
                       ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           {creditCards.map(card => (
                             <div key={card.id} className={`relative h-56 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${defaultPaymentMethod === `card-${card.id}` ? "ring-2 ring-blue-500" : ""}`} style={{
                               background: defaultPaymentMethod === `card-${card.id}` ? "linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)" : "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)"
@@ -1658,13 +1658,13 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* ACCORDION 4: CARTEIRA DA EMPRESA */}
                 <AccordionItem value="carteira" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <Wallet className="h-5 w-5 text-cyan-600" />
+                      <Wallet className="h-4 w-4 text-cyan-600" />
                       <span className="font-semibold text-slate-900">Carteira da Empresa</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100 space-y-4">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100 space-y-4">
                     <div className="bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 p-6 rounded-xl border border-blue-300 shadow-lg text-white">
                       <label className="text-xs font-semibold uppercase tracking-wide block mb-2 opacity-90">Saldo Disponível</label>
                       <div className="text-3xl font-bold mb-1">R$ {companyWalletBalance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
@@ -1689,7 +1689,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                     </div>
 
                     <div>
-                      <label className="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wide">Últimas Movimentações</label>
+                      <label className="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wide">Últimas Movimentações</label>
                       <div className="space-y-2 bg-slate-50 p-3 rounded border border-slate-200 max-h-48 overflow-y-auto">
                         {companyWalletStatements.slice(0, 5).map(stmt => (
                           <div key={stmt.id} className="flex justify-between items-center text-xs border-b border-slate-200 pb-2 last:border-0">
@@ -1715,13 +1715,13 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
                 {/* ACCORDION 5: NOTAS FISCAIS E COMPROVANTES */}
                 <AccordionItem value="nf" className="border border-slate-200 rounded-lg overflow-hidden">
-                  <AccordionTrigger className="px-4 py-3 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50">
+                  <AccordionTrigger className="px-3 py-2 hover:bg-slate-50 [&[data-state=open]]:bg-slate-50 text-xs">
                     <div className="flex items-center gap-2">
-                      <FileText className="h-5 w-5 text-indigo-600" />
+                      <FileText className="h-4 w-4 text-indigo-600" />
                       <span className="font-semibold text-slate-900">Notas Fiscais e Comprovantes</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="px-4 py-4 border-t border-slate-100">
+                  <AccordionContent className="px-3 py-3 border-t border-slate-100">
                     <div className="space-y-2">
                       {paymentHistory.map((payment) => {
                         const methodLabel = {
