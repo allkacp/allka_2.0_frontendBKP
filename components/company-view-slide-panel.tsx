@@ -10,6 +10,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import { Input } from "@/components/ui/input"
 import { ModalBrandHeader } from "@/components/ui/modal-brand-header"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from "recharts"
 import { useSidebar } from "@/contexts/sidebar-context"
 import { useToast } from "@/hooks/use-toast"
@@ -90,6 +91,7 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
   const [isDadosEditMode, setIsDadosEditMode] = useState(false)
   const [dadosEditedData, setDadosEditedData] = useState<Record<string, any>>({})
   const [isSaving, setIsSaving] = useState(false)
+  const [showSaveConfirm, setShowSaveConfirm] = useState(false)
 
   // Payment methods state
   const [defaultPaymentMethod, setDefaultPaymentMethod] = useState<string>("pix")
@@ -401,8 +403,8 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
       return
     }
 
-    // Validation passed, proceed with save
-    performDadosSave()
+    // Validation passed — show confirmation dialog
+    setShowSaveConfirm(true)
   }
 
   const performDadosSave = async () => {
@@ -441,54 +443,42 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
         status: getDadosDisplayValue("status") || company.status,
       }
 
-      const response = await fetch(`/api/admin/companies/${company.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataPayload),
-      })
+      // Simulate async save (no real API in mock mode)
+      await new Promise((resolve) => setTimeout(resolve, 600))
 
-      const data = await response.json()
-
-      if (data.success || response.ok) {
-        // Update local company object with new data
-        const updatedCompany: Company = {
-          ...company!,
-          name: dataPayload.name,
-          legal_name: dataPayload.legal_name,
-          email: dataPayload.email,
-          phone: dataPayload.phone,
-          phone_secondary: dataPayload.phone_secondary,
-          whatsapp: dataPayload.whatsapp,
-          website: dataPayload.website,
-          ie: dataPayload.ie,
-          zip_code: dataPayload.zip_code,
-          street: dataPayload.street,
-          number: dataPayload.number,
-          complement: dataPayload.complement,
-          neighborhood: dataPayload.neighborhood,
-          city: dataPayload.city,
-          state: dataPayload.state,
-          country: dataPayload.country,
-          pix_key: dataPayload.pix_key,
-          pix_type: dataPayload.pix_type,
-          bank_name: dataPayload.bank_name,
-          bank_agency: dataPayload.bank_agency,
-          bank_account: dataPayload.bank_account,
-          bank_account_type: dataPayload.bank_account_type,
-          admin_notes: dataPayload.admin_notes,
-          internal_notes: dataPayload.internal_notes,
-          status: dataPayload.status as CompanyStatus,
-        }
-        
-        // Notify parent component of the update
-        onCompanyUpdate?.(updatedCompany)
-        
-        toast({ title: "Sucesso!", description: "Dados da empresa atualizados com sucesso" })
-        setIsDadosEditMode(false)
-        setDadosEditedData({})
-      } else {
-        toast({ title: "Erro", description: data.message || "Falha ao salvar dados", variant: "destructive" })
+      const updatedCompany: Company = {
+        ...company!,
+        name: dataPayload.name as string,
+        legal_name: dataPayload.legal_name as string,
+        email: dataPayload.email as string,
+        phone: dataPayload.phone as string,
+        phone_secondary: dataPayload.phone_secondary,
+        whatsapp: dataPayload.whatsapp,
+        website: dataPayload.website,
+        ie: dataPayload.ie,
+        zip_code: dataPayload.zip_code,
+        street: dataPayload.street,
+        number: dataPayload.number,
+        complement: dataPayload.complement,
+        neighborhood: dataPayload.neighborhood,
+        city: dataPayload.city,
+        state: dataPayload.state,
+        country: dataPayload.country,
+        pix_key: dataPayload.pix_key,
+        pix_type: dataPayload.pix_type,
+        bank_name: dataPayload.bank_name,
+        bank_agency: dataPayload.bank_agency,
+        bank_account: dataPayload.bank_account,
+        bank_account_type: dataPayload.bank_account_type,
+        admin_notes: dataPayload.admin_notes,
+        internal_notes: dataPayload.internal_notes,
+        status: dataPayload.status as CompanyStatus,
       }
+
+      onCompanyUpdate?.(updatedCompany)
+      toast({ title: "Dados salvos!", description: "As informações da empresa foram atualizadas com sucesso." })
+      setIsDadosEditMode(false)
+      setDadosEditedData({})
     } catch (error) {
       toast({ title: "Erro", description: "Falha ao salvar dados da empresa", variant: "destructive" })
     } finally {
@@ -2372,6 +2362,30 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
         </div>
       </div>
     )}
+
+    {/* Save confirmation dialog */}
+    <AlertDialog open={showSaveConfirm} onOpenChange={setShowSaveConfirm}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Salvar alterações?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Tem certeza que deseja salvar as alterações nos dados de <strong>{company.name}</strong>? Esta ação irá atualizar as informações da empresa.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogAction
+            className="bg-emerald-600 hover:bg-emerald-700 text-white"
+            onClick={() => {
+              setShowSaveConfirm(false)
+              performDadosSave()
+            }}
+          >
+            Sim, salvar
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
     </>
   )
 }
