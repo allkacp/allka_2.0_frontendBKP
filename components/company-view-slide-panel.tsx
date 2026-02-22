@@ -706,47 +706,47 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
 
             {/* Overview Tab */}
             <TabsContent value="visao-geral" className="flex-1 overflow-y-auto">
-              <div className="p-6 space-y-6">
+              <div className="p-4 space-y-4">
                 {/* KPI Cards Row */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-3">
                   {/* Card 1: Total de tarefas contratadas */}
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-3 border border-blue-200">
                     <div className="flex items-start justify-between">
-                      <div>
-                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Total de tarefas contratadas</span>
-                        <div className="text-3xl font-bold text-slate-900 mt-2">1.247</div>
-                        <div className="text-xs text-slate-600 mt-1">Tarefas vinculadas à empresa</div>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider leading-none">Tarefas contratadas</span>
+                        <div className="text-2xl font-bold text-slate-900 mt-1">1.247</div>
+                        <div className="text-[10px] text-slate-500 mt-0.5">Vinculadas à empresa</div>
                       </div>
-                      <div className="p-3 bg-white rounded-lg border border-blue-200">
-                        <TrendingUp className="h-6 w-6 text-blue-600" />
+                      <div className="p-1.5 bg-white rounded-md border border-blue-200 flex-shrink-0">
+                        <TrendingUp className="h-4 w-4 text-blue-600" />
                       </div>
                     </div>
                   </div>
 
                   {/* Card 2: Pontuação total das tarefas */}
-                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 border border-purple-200">
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-3 border border-purple-200">
                     <div className="flex items-start justify-between">
-                      <div>
-                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Pontuação total das tarefas</span>
-                        <div className="text-3xl font-bold text-slate-900 mt-2">8.430 pts</div>
-                        <div className="text-xs text-slate-600 mt-1">Soma da pontuação dos projetos</div>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider leading-none">Pontuação total</span>
+                        <div className="text-2xl font-bold text-slate-900 mt-1">8.430 pts</div>
+                        <div className="text-[10px] text-slate-500 mt-0.5">Soma dos projetos</div>
                       </div>
-                      <div className="p-3 bg-white rounded-lg border border-purple-200">
-                        <Star className="h-6 w-6 text-purple-600" />
+                      <div className="p-1.5 bg-white rounded-md border border-purple-200 flex-shrink-0">
+                        <Star className="h-4 w-4 text-purple-600" />
                       </div>
                     </div>
                   </div>
 
                   {/* Card 3: Economia gerada */}
-                  <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 border border-green-200">
+                  <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-3 border border-green-200">
                     <div className="flex items-start justify-between">
-                      <div>
-                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Economia gerada</span>
-                        <div className="text-3xl font-bold text-slate-900 mt-2">R$ 124.500,00</div>
-                        <div className="text-xs text-slate-600 mt-1">Economia acumulada dos projetos</div>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider leading-none">Economia gerada</span>
+                        <div className="text-2xl font-bold text-slate-900 mt-1">R$ 124.500</div>
+                        <div className="text-[10px] text-slate-500 mt-0.5">Economia acumulada</div>
                       </div>
-                      <div className="p-3 bg-white rounded-lg border border-green-200">
-                        <Wallet className="h-6 w-6 text-green-600" />
+                      <div className="p-1.5 bg-white rounded-md border border-green-200 flex-shrink-0">
+                        <Wallet className="h-4 w-4 text-green-600" />
                       </div>
                     </div>
                   </div>
@@ -761,14 +761,14 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                         <span className="font-semibold text-slate-900 dark:text-slate-300">Estatísticas</span>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="pt-2 pb-0">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <AccordionContent className="pt-1.5 pb-0">
+                      <div className="grid grid-cols-3 gap-2">
                         <Card className="p-2 bg-gradient-to-br from-emerald-50 to-emerald-100/50 dark:from-emerald-950/20 dark:to-emerald-900/10 border-emerald-200/50 dark:border-emerald-800/30 shadow-none">
-                          <div className="flex items-center gap-2 mb-0.5">
-                            <TrendingUp className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-                            <span className="text-xs font-medium text-emerald-900 dark:text-emerald-300">Taxa de Crescimento</span>
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <TrendingUp className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                            <span className="text-[10px] font-medium text-emerald-900 dark:text-emerald-300">Crescimento</span>
                           </div>
-                          <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
+                          <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">
                             {company.status === "active" && company.mau > 0
                               ? `${((company.dau / company.mau) * 100).toFixed(1)}%`
                               : "—"}
@@ -776,19 +776,19 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                         </Card>
 
                         <Card className="p-2 bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-950/20 dark:to-blue-900/10 border-blue-200/50 dark:border-blue-800/30 shadow-none">
-                          <div className="flex items-center gap-2 mb-0.5">
-                            <Users className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-                            <span className="text-xs font-medium text-blue-900 dark:text-blue-300">Total de Usuários</span>
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <Users className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                            <span className="text-[10px] font-medium text-blue-900 dark:text-blue-300">Usuários</span>
                           </div>
-                          <p className="text-lg font-bold text-blue-700 dark:text-blue-300">{company.users_count}</p>
+                          <p className="text-sm font-bold text-blue-700 dark:text-blue-300">{company.users_count}</p>
                         </Card>
 
                         <Card className="p-2 bg-gradient-to-br from-violet-50 to-violet-100/50 dark:from-violet-950/20 dark:to-violet-900/10 border-violet-200/50 dark:border-violet-800/30 shadow-none">
-                          <div className="flex items-center gap-2 mb-0.5">
-                            <Clock className="h-3.5 w-3.5 text-violet-600 dark:text-violet-400" />
-                            <span className="text-xs font-medium text-violet-900 dark:text-violet-300">Ativos 90d</span>
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <Clock className="h-3 w-3 text-violet-600 dark:text-violet-400" />
+                            <span className="text-[10px] font-medium text-violet-900 dark:text-violet-300">Ativos 90d</span>
                           </div>
-                          <p className="text-lg font-bold text-violet-700 dark:text-violet-300">
+                          <p className="text-sm font-bold text-violet-700 dark:text-violet-300">
                             {company.mau > 0 ? Math.round(company.mau / 3) : 0}
                           </p>
                         </Card>
@@ -797,45 +797,45 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                   </AccordionItem>
                 </Accordion>
 
-                {/* Status de Usu��rios Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Status de Usuários Row */}
+                <div className="grid grid-cols-2 gap-3">
                   {/* Card: Últimos usuários que acessaram */}
-                  <div className="bg-white rounded-lg p-4 border border-slate-200">
-                    <h3 className="text-sm font-semibold text-slate-900 mb-4">Últimos usuários que acessaram</h3>
-                    <div className="space-y-3">
+                  <div className="bg-white rounded-lg p-3 border border-slate-200">
+                    <h3 className="text-xs font-semibold text-slate-700 mb-2">Últimos acessos</h3>
+                    <div className="space-y-2">
                       {recentUsers.length > 0 ? (
                         recentUsers.map((user) => (
-                          <div key={user.id} className="flex items-center gap-3 pb-2 border-b border-slate-100 last:border-0 last:pb-0">
-                            <Avatar className="h-8 w-8">
+                          <div key={user.id} className="flex items-center gap-2 pb-1.5 border-b border-slate-100 last:border-0 last:pb-0">
+                            <Avatar className="h-6 w-6 flex-shrink-0">
                               <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.avatar}`} />
-                              <AvatarFallback>{user.avatar}</AvatarFallback>
+                              <AvatarFallback className="text-[10px]">{user.avatar}</AvatarFallback>
                             </Avatar>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-slate-900 truncate">{user.name}</p>
-                              <p className="text-xs text-slate-500">{user.time}</p>
+                              <p className="text-xs font-medium text-slate-900 truncate">{user.name}</p>
+                              <p className="text-[10px] text-slate-500">{user.time}</p>
                             </div>
                           </div>
                         ))
                       ) : (
-                        <p className="text-sm text-slate-500">Nenhum acesso recente</p>
+                        <p className="text-xs text-slate-500">Nenhum acesso recente</p>
                       )}
                     </div>
                   </div>
 
                   {/* Card: Usuários online agora */}
-                  <div className="bg-white rounded-lg p-4 border border-slate-200 flex flex-col items-center justify-center">
-                    <h3 className="text-sm font-semibold text-slate-900 mb-4 w-full">Usuários online agora</h3>
+                  <div className="bg-white rounded-lg p-3 border border-slate-200 flex flex-col items-center justify-center">
+                    <h3 className="text-xs font-semibold text-slate-700 mb-2 w-full">Online agora</h3>
                     <div className="flex flex-col items-center justify-center flex-1">
-                      <div className="text-5xl font-bold text-blue-600">{company.users_online}</div>
-                      <p className="text-sm text-slate-600 mt-2">Usuários ativos no momento</p>
+                      <div className="text-4xl font-bold text-blue-600">{company.users_online}</div>
+                      <p className="text-[10px] text-slate-500 mt-1">usuários ativos</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Módulos Mais Usados - Full Width Chart */}
-                <div className="bg-white rounded-lg p-4 border border-slate-200">
-                  <h4 className="text-sm font-semibold text-slate-900 mb-4">Módulos mais usados</h4>
-                  <ResponsiveContainer width="100%" height={200}>
+                <div className="bg-white rounded-lg p-3 border border-slate-200">
+                  <h4 className="text-xs font-semibold text-slate-700 mb-2">Módulos mais usados</h4>
+                  <ResponsiveContainer width="100%" height={140}>
                     <BarChart data={moduleUsageData} layout="vertical" margin={{ top: 0, right: 30, left: 80, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                       <XAxis type="number" tick={{ fontSize: 10 }} />
@@ -855,23 +855,23 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                         <span className="font-semibold text-slate-900">Informações Principais</span>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-3 py-3 border-t border-slate-100">
-                      <div className="space-y-3 text-sm">
+                    <AccordionContent className="px-3 py-2 border-t border-slate-100">
+                      <div className="space-y-2">
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-600">ID:</span>
-                          <code className="bg-slate-100 px-2 py-1 rounded text-xs font-mono">{company.id}</code>
+                          <span className="text-xs text-slate-500">ID</span>
+                          <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-700">{company.id}</code>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-600">Tipo:</span>
-                          <Badge className="bg-blue-600">{getTypeLabel(company.type)}</Badge>
+                          <span className="text-xs text-slate-500">Tipo</span>
+                          <Badge className="bg-blue-600 text-[10px] px-1.5 py-0">{getTypeLabel(company.type)}</Badge>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-600">Status:</span>
-                          <Badge variant={getStatusColor(company.status)}>{getStatusLabel(company.status)}</Badge>
+                          <span className="text-xs text-slate-500">Status</span>
+                          <Badge variant={getStatusColor(company.status)} className="text-[10px] px-1.5 py-0">{getStatusLabel(company.status)}</Badge>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-600">Data de Cadastro:</span>
-                          <span className="text-xs font-medium text-slate-900">{new Date(company.created_at).toLocaleDateString("pt-BR")}</span>
+                          <span className="text-xs text-slate-500">Cadastro</span>
+                          <span className="text-[10px] font-medium text-slate-700">{new Date(company.created_at).toLocaleDateString("pt-BR")}</span>
                         </div>
                       </div>
                     </AccordionContent>
