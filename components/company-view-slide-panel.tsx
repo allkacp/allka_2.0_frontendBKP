@@ -559,11 +559,47 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
                     Pendente
                   </span>
                 )}
-                {company.account_type && (
-                  <Badge variant="secondary" className="text-xs">
-                    {company.account_type}
-                  </Badge>
-                )}
+                {/* Credit Plan Badge */}
+                {company.partner_level && (() => {
+                  const plan = company.partner_level!.toLowerCase()
+                  const planColor =
+                    plan === "enterprise" ? "bg-purple-100 text-purple-700 border border-purple-200"
+                    : plan === "platinum"  ? "bg-indigo-100 text-indigo-700 border border-indigo-200"
+                    : plan === "gold"      ? "bg-amber-100 text-amber-700 border border-amber-200"
+                    : plan === "growth"    ? "bg-blue-100 text-blue-700 border border-blue-200"
+                    : plan === "silver"    ? "bg-slate-200 text-slate-600 border border-slate-300"
+                    : plan === "starter"   ? "bg-slate-100 text-slate-500 border border-slate-200"
+                    :                        "bg-slate-100 text-slate-600 border border-slate-200"
+                  return (
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${planColor}`}>
+                      <Crown className="h-3.5 w-3.5" />
+                      {company.partner_level}
+                    </span>
+                  )
+                })()}
+
+                {/* Account Type Badge */}
+                {(() => {
+                  const label =
+                    company.type === "company" && company.account_type === "independent" ? "Company Independente"
+                    : company.type === "company" ? "Company Dependente"
+                    : company.type === "agency"  ? "Agency"
+                    : company.type === "nomad"   ? "Partner"
+                    : null
+                  if (!label) return null
+                  const typeColor =
+                    label === "Company Independente" ? "bg-blue-100 text-blue-700 border border-blue-200"
+                    : label === "Company Dependente"  ? "bg-violet-100 text-violet-700 border border-violet-200"
+                    : label === "Agency"              ? "bg-pink-100 text-pink-700 border border-pink-200"
+                    :                                   "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                  const TypeIcon = label === "Agency" ? Building2 : label === "Partner" ? Star : Building2
+                  return (
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${typeColor}`}>
+                      <TypeIcon className="h-3.5 w-3.5" />
+                      {label}
+                    </span>
+                  )
+                })()}
 
                 {/* Wallet Balance Card */}
                 <div
