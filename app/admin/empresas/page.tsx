@@ -880,34 +880,37 @@ export default function EmpresasPage() {
             />
           </div>
 
-          {/* Result count */}
-          <span className="text-xs text-slate-400 whitespace-nowrap flex-shrink-0">
-            {filteredCompanies.length !== companies.length
-              ? <><span className="font-semibold text-blue-500">{filteredCompanies.length}</span> de {companies.length}</>
-              : <><span className="font-semibold text-slate-600 dark:text-slate-300">{companies.length}</span> empresa{companies.length !== 1 ? "s" : ""}</>
-            }
-          </span>
+          {/* Spacer */}
+          <div className="flex-1" />
 
-          {/* Items per page */}
-          <ItemsPerPageSelect
-            value={pageSize.toString()}
-            onValueChange={(value) => { setPageSize(Number(value)); setCurrentPage(1) }}
-            variant="top"
-          />
+          {/* Items per page + result count */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <ItemsPerPageSelect
+              value={pageSize.toString()}
+              onValueChange={(value) => { setPageSize(Number(value)); setCurrentPage(1) }}
+              variant="top"
+            />
+            <span className="text-xs text-slate-400 whitespace-nowrap">
+              {filteredCompanies.length !== companies.length
+                ? <>de <span className="font-semibold text-blue-500">{filteredCompanies.length}</span> de {companies.length} empresa{companies.length !== 1 ? "s" : ""}</>
+                : <>de <span className="font-semibold text-slate-600 dark:text-slate-300">{companies.length}</span> empresa{companies.length !== 1 ? "s" : ""}</>
+              }
+            </span>
+          </div>
 
           {/* Filter Button */}
           <Button
             onClick={() => setIsFilterModalOpen(true)}
             variant="outline"
             size="sm"
-            className="h-9 gap-2 px-3.5 text-xs border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="h-9 gap-2 px-3.5 text-xs border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 flex-shrink-0"
           >
             <Filter className="h-3.5 w-3.5" />
             Filtros
           </Button>
 
-          {/* Top Pagination */}
-          <div className="flex items-center gap-0.5">
+          {/* Pagination */}
+          <div className="flex items-center gap-0.5 flex-shrink-0">
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
