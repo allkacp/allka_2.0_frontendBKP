@@ -1,5 +1,5 @@
 ﻿
-import { X, Building2, Users, Mail, Phone, MapPin, Calendar, CheckCircle, AlertCircle, TrendingUp, Wallet, ArrowUp, ArrowDown, Lock, Download, Star, Gift, Check, MessageSquare, Camera, Eye, Clock, Activity, Zap, UserIcon, Edit2, Save, Loader2, XCircle, Crown, Trash2, Plus, CreditCard, MoreVertical, FileText, Shield, BarChart3, Share2 } from "lucide-react"
+import { X, Building2, Users, Mail, Phone, MapPin, Calendar, CheckCircle, AlertCircle, TrendingUp, Wallet, ArrowUp, ArrowDown, Lock, Download, Star, Gift, Check, MessageSquare, Camera, Eye, Clock, Activity, Zap, UserIcon, Edit2, Save, Loader2, XCircle, Crown, Trash2, Plus, CreditCard, MoreVertical, FileText, Shield, BarChart3, Share2, PauseCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
@@ -550,9 +550,24 @@ export function CompanyViewSlidePanel({ open, onClose, company, onCompanyUpdate 
           <ModalBrandHeader
             right={
               <div className="flex items-center gap-3 flex-shrink-0">
-                <Badge variant="default" className="text-xs">
-                  {getStatusLabel(company.status)}
-                </Badge>
+                {company.status === "active" && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500 text-white">
+                    <CheckCircle className="h-3.5 w-3.5" />
+                    Ativa
+                  </span>
+                )}
+                {company.status === "inactive" && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-400 text-white">
+                    <PauseCircle className="h-3.5 w-3.5" />
+                    Inativa
+                  </span>
+                )}
+                {company.status === "pending" && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-400 text-amber-900">
+                    <Clock className="h-3.5 w-3.5" />
+                    Pendente
+                  </span>
+                )}
                 {company.account_type && (
                   <Badge variant="secondary" className="text-xs">
                     {company.account_type}
